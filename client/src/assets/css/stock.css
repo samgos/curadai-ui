@@ -1,3 +1,21 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
+
+.logo {
+  width: 3.5em;
+  height: 3.5em;
+  padding-right: 1em;
+}
+
+label {
+  display: inline-block;
+  vertical-align: bottom;
+  padding-bottom: .525em;
+  font-size: 1.75em;
+  clear: both;
+}
+
+input, .MuiInputBase-root {
+  color: white !important;
+}

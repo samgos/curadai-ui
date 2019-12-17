@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { styled } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import style from '../assets/css/modal';
+import curaDAI from '../assets/img/cura.png';
+import normDAI from '../assets/img/dai.png';
+import Input from './input';
 
 const ModalBase = styled(Paper)(style);
 
@@ -16,12 +20,32 @@ class Modal extends Component {
   render() {
     return (
       <ModalBase>
-        <Typography variant="h5" gutterBottom>
-          CuraDAI
-        </Typography>
+        <Grid container direction='column' alignItems='center' spacing={6}>
+          <Grid item>
+            <Typography variant="h5" gutterBottom>
+              1 DAI = 1.78 CuraDAI
+            </Typography>
+          </Grid>
+          <Grid item container direction='row' justify='center' spacing={3}>
+            <Grid item>
+              <img className='logo' src={normDAI} />
+            </Grid>
+            <Grid item>
+              <Input currency='DAI' label='Amount'/>
+            </Grid>
+          </Grid>
+          <Grid item container direction='row' justify='center' spacing={3}>
+            <Grid item>
+              <img className='logo' src={curaDAI} />
+            </Grid>
+            <Grid item>
+            <Input currency='CuraDAI' label='Amount'/>
+            </Grid>
+          </Grid>
+        </Grid>
       </ModalBase>
     );
   }
 }
 
-export default styled(Modal)(style);
+export default Modal;
