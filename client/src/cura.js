@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import getWeb3 from './utils/getWeb3';
-import './assets/css/dApp.css';
+
+import Grid from '@material-ui/core/Grid';
+import Modal from './components/modal';
+import stock from './assets/css/stock';
+import './assets/css/stock.css';
 
 class Cura extends Component {
   constructor(props) {
@@ -20,10 +24,11 @@ class Cura extends Component {
 
   render() {
     return (
-      <div className='dApp'>
-      Henlo
-      {this.state.account}
-      </div>
+      <Grid container justify="center" alignItems="center" style={stock}>
+        <Grid item>
+          <Modal />
+        </Grid>
+      </Grid>
     );
   }
 }
