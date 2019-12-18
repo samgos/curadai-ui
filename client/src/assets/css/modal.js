@@ -1,5 +1,5 @@
 const modal = ({
-  background: 'linear-gradient(225deg, #8EC5FC 0%, #E0C3FC 100%)',
+  background: 'linear-gradient(to left, #ff9966, #ff5e62)',
   width: '45rem',
   height: '20rem',
   padding: '5rem',

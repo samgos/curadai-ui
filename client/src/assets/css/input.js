@@ -1,14 +1,14 @@
 const input = ({
   width: '15em',
   '&:hover fieldset': {
-    borderColor: 'yellow !important',
+    borderColor: '#8e2de2 !important',
   },
   '& label': {
     color: 'white'
   },
   '& label.Mui-focused': {
     borderColor: 'red ',
-    color: 'yellow',
+    color: '#8e2de2',
   },
   '& input:valid + fieldset': {
     borderColor: 'white',
@@ -20,7 +20,7 @@ const input = ({
   },
   '& input:valid:focus + fieldset': {
     borderWidth: 3,
-    borderColor: 'yellow',
+    borderColor: '#8e2de2',
     paddingRight: '5px !important',
     paddingLeft: '8px !important',
   },

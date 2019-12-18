@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import style from '../assets/css/modal';
 import curaDAI from '../assets/img/cura.png';
 import normDAI from '../assets/img/dai.png';
+import Trigger from './trigger';
 import Input from './input';
 
 const ModalBase = styled(Paper)(style);
@@ -14,7 +15,6 @@ const ModalBase = styled(Paper)(style);
 class Modal extends Component {
   constructor(props) {
     super(props)
-      this.state = {}
   }
 
   render() {
@@ -41,6 +41,9 @@ class Modal extends Component {
             <Grid item>
             <Input currency='CuraDAI' label='Amount'/>
             </Grid>
+          </Grid>
+          <Grid item alignItems='right'>
+            <Trigger label='Swap'/>
           </Grid>
         </Grid>
       </ModalBase>
