@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
-import Typography from '@material-ui/core/Typography';
 import { styled } from '@material-ui/core/styles';
+import HelpIcon from '@material-ui/icons/Help';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import style from '../assets/css/modal';
 import curaDAI from '../assets/img/cura.png';
 import normDAI from '../assets/img/dai.png';
 import Trigger from './trigger';
+import Wallet from './wallet';
 import Input from './input';
 
 const ModalBase = styled(Paper)(style);
@@ -21,10 +22,13 @@ class Modal extends Component {
     return (
       <ModalBase>
         <Grid container direction='column' alignItems='center' spacing={6}>
-          <Grid item>
-            <Typography variant="h5" gutterBottom>
-              1 DAI = 1.78 CuraDAI
-            </Typography>
+          <Grid item container direction="row" justify="space-between">
+            <Grid item>
+              <Wallet cura={10000} dai={50000000}/>
+            </Grid>
+            <Grid item>
+              <HelpIcon className="help" />
+            </Grid>
           </Grid>
           <Grid item container direction='row' justify='center' spacing={3}>
             <Grid item>
@@ -39,11 +43,11 @@ class Modal extends Component {
               <img className='logo' src={curaDAI} />
             </Grid>
             <Grid item>
-            <Input currency='CuraDAI' label='Amount'/>
+            <Input exchange="1.78" currency='CuraDAI' label='Amount'/>
             </Grid>
           </Grid>
-          <Grid item alignItems='right'>
-            <Trigger label='Swap'/>
+          <Grid item>
+            <Trigger label={this.props.phase}/>
           </Grid>
         </Grid>
       </ModalBase>

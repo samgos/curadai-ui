@@ -36,6 +36,9 @@ class Input extends Component {
   render() {
     return (
       <TextInput label={this.props.label} variant="outlined"
+        helperText={<span> {this.props.currency === "DAI" ?
+          "1 DAI = 1.75 CuraDAI" : "1.78 CuraDAI = 1 DAI"}
+        </span>}
         InputProps={{
           endAdornment: this.props.currency + '\xa0',
           inputComponent: this.NumberFormatCustom

@@ -9,7 +9,9 @@ import './assets/css/stock.css';
 class Cura extends Component {
   constructor(props) {
     super(props)
-      this.state = {}
+      this.state = {
+        phase: "Connect"
+      }
   }
 
   componentDidMount = async() => {
@@ -17,8 +19,9 @@ class Cura extends Component {
       const provider = await getWeb3();
       const account = provider.accounts[0];
       const web3 = provider.web3;
+      const phase = "Swap";
 
-      this.setState({ web3, account });
+      this.setState({ phase, web3, account });
     } catch(e) { }
   }
 
@@ -26,7 +29,7 @@ class Cura extends Component {
     return (
       <Grid container justify="center" alignItems="center" style={stock}>
         <Grid item>
-          <Modal />
+          <Modal phase={this.state.phase} />
         </Grid>
       </Grid>
     );

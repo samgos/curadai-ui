@@ -7,8 +7,7 @@ const input = ({
     color: 'white'
   },
   '& label.Mui-focused': {
-    borderColor: 'red ',
-    color: '#8e2de2',
+    color: 'white',
   },
   '& input:valid + fieldset': {
     borderColor: 'white',

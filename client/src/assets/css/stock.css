@@ -8,6 +8,22 @@ body {
   padding-right: 1em;
 }
 
+.icon {
+  position: relative;
+  top: 3.75px;
+}
+
+.help {
+  position: relative;
+  top: 5px;
+}
+
+.balances {
+  position: relative;
+  padding-left: 17.5px;
+  bottom: 2.5px;
+}
+
 label {
   display: inline-block;
   vertical-align: bottom;
@@ -16,6 +32,6 @@ label {
   clear: both;
 }
 
-input, .MuiInputBase-root {
+input, .MuiInputBase-root, span {
   color: white !important;
 }

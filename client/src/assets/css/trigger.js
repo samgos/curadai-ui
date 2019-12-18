@@ -5,6 +5,7 @@ const trigger = ({
   fontSize: '1.125em',
   padding: '.2em .75em',
   '&:hover': {
+    background: '#2de28e',
     borderColor: 'white'
   }
 });
