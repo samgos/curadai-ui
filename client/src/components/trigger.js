@@ -13,7 +13,7 @@ class Trigger extends Component {
 
   render() {
     return (
-      <CustomButton variant="outlined">{this.props.label}</CustomButton>
+      <CustomButton onClick={this.props.onClick} variant="outlined">{this.props.label}</CustomButton>
     );
   }
 }

@@ -24,7 +24,7 @@ class Modal extends Component {
         <Grid container direction='column' alignItems='center' spacing={6}>
           <Grid item container direction="row" justify="space-between">
             <Grid item>
-              <Wallet cura={10000} dai={50000000}/>
+              <Wallet cura={this.props.cura} dai={this.props.dai}/>
             </Grid>
             <Grid item>
               <HelpIcon className="help" />
@@ -47,7 +47,7 @@ class Modal extends Component {
             </Grid>
           </Grid>
           <Grid item>
-            <Trigger label={this.props.phase}/>
+            <Trigger onClick={this.props.operation} label={this.props.phase}/>
           </Grid>
         </Grid>
       </ModalBase>
