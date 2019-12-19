@@ -27,7 +27,7 @@ class Modal extends Component {
               <Wallet cura={this.props.cura} dai={this.props.dai}/>
             </Grid>
             <Grid item>
-              <HelpIcon className="help" />
+              <HelpIcon onClick={this.props.infoTrigger} className="help" />
             </Grid>
           </Grid>
           <Grid item container direction='row' justify='center' spacing={3}>

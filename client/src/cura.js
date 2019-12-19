@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import getWeb3 from './utils/getWeb3';
 
+import { CURADAI_ADDRESS, DAI_ADDRESS } from './constants/contracts';
 import { contractInstance } from './utils/operations';
-import DummyDai from './contracts/DummyDai.json';
+import { parseInput } from './constants/functions';
+import ALERT from './constants/alerts';
 import CuraDai from './contracts/CuraDai.json';
+import ERC20 from './contracts/ERC20.json';
 
 import Grid from '@material-ui/core/Grid';
 import Modal from './components/modal';
-
+import Alert from './components/alert';
 import stock from './assets/css/stock';
 import './assets/css/stock.css';
 
@@ -17,6 +20,7 @@ class Cura extends Component {
       this.state = {
         operation: this.initialiseWeb3,
         phase: "Connect",
+        alert: false,
         market: "DAI"
       }
   }
@@ -33,27 +37,38 @@ class Cura extends Component {
       const web3 = provider.web3;
       const phase = "Approve";
 
-      // Not needed for main-net/rinkeby deployments
-        const networkId = await web3.eth.net.getId();
-        const curaAddress = CuraDai.networks[networkId].address;
-        const daiAddress = DummyDai.networks[networkId].address;
-      //
+      const networkId = await web3.eth.net.getId();
 
-      const daiInstance = await contractInstance(web3, DummyDai, daiAddress);
-      const curaInstance = await contractInstance(web3, CuraDai, curaAddress);
+      if(networkId === 4){
 
+        const curaInstance = await contractInstance(web3, CuraDai, CURADAI_ADDRESS);
+        const daiInstance = await contractInstance(web3, ERC20, DAI_ADDRESS);
+
+        await this.setState({
+          daiInstance, curaInstance, operation, account, phase, web3
+        }, async() => await this.getBalances());
+     } else {
+       await this.setState({
+         title:  ALERT.NETWORK_TITLE,
+         body: ALERT.NETWORK_BODY,
+         button: false
+       }, this.openModal());
+     }
+   } catch(e){
       await this.setState({
-       daiInstance, curaInstance, operation, account, phase, web3
-     }, async() => await this.getBalances());
-    } catch(e){}
+        title:  ALERT.WEB3_TITLE,
+        body: ALERT.WEB3_BODY,
+        button: false
+      }, this.openModal());
+    }
   }
 
   getBalances = async() => {
     const { curaInstance, daiInstance, account } = this.state;
     const curaCall = await curaInstance.methods.balanceOf(account).call();
     const daiCall = await daiInstance.methods.balanceOf(account).call();
-    const cura = await this.parseInput(curaCall);
-    const dai = await this.parseInput(daiCall);
+    const cura = await parseInput(curaCall);
+    const dai = await parseInput(daiCall);
 
     this.setState({
       cura, dai
@@ -81,13 +96,15 @@ class Cura extends Component {
     await new Promise((resolve, reject) =>
       instance.methods.approve(contract, exchange).send({
         from: account
-      }).on('transactionHash',
+      }).on('confirmation',
       async(confirmationNumber, receipt) => {
+        if(confirmationNumber === 1){
           await this.getBalances();
           await this.setState({
             operation: this.swapTokens,
             phase: "Swap"
           }); resolve(receipt);
+        }
       }).on('error', (error) => {
         reject(error)
       })
@@ -102,13 +119,15 @@ class Cura extends Component {
     await new Promise((resolve, reject) =>
       curaInstance.methods.burn(amount).send({
         from: account
-      }).on('transactionHash',
+      }).on('confirmation',
       async(confirmationNumber, receipt) => {
+        if(confirmationNumber === 1){
           await this.getBalances();
           await this.setState({
             operation: this.swapTokens,
             phase: "Swap"
           }); resolve(receipt);
+        }
       }).on('error', (error) => {
         reject(error)
       })
@@ -123,13 +142,15 @@ class Cura extends Component {
     await new Promise((resolve, reject) =>
       curaInstance.methods.mint(amount).send({
         from: account
-      }).on('transactionHash',
+      }).on('confirmation',
       async(confirmationNumber, receipt) => {
+        if(confirmationNumber === 1){
           await this.getBalances();
           await this.setState({
             operation: this.swapTokens,
             phase: "Swap"
           }); resolve(receipt);
+        }
       }).on('error', (error) => {
         reject(error)
       })
@@ -198,10 +219,6 @@ class Cura extends Component {
     }
   }
 
-  parseInput = async(_amount) => {
-    return (parseFloat(_amount)/Math.pow(10,18)).toFixed(2).toString();
-  }
-
   marketChange = (_market) => {
     const reset = _market === "DAI" ? "CuraDAI" : "DAI";
 
@@ -223,7 +240,7 @@ class Cura extends Component {
       if(_element === "CuraDAI"){
         target.style.border = "solid 2px #ffffff";
       } else {
-        target.style.border = "solid 3.575px #ffffff";
+        target.style.border = "solid 3.525px #ffffff";
       }
 
       target.style.background = "#ffffff";
@@ -236,11 +253,33 @@ class Cura extends Component {
     }
   }
 
+  triggerInfo = async() => {
+    await this.setState({
+      title:  ALERT.INFO_TITLE,
+      body: ALERT.INFO_BODY,
+      button: true
+    }, this.openModal());
+  }
+
+  openModal = () => {
+    this.setState({
+      alert: true
+    })
+  }
+
+  closeModal = () => {
+    this.setState({
+      alert: false
+    })
+  }
+
   render() {
     return (
+     <Fragment>
       <Grid container justify="center" alignItems="center" style={stock}>
         <Grid item>
           <Modal
+            infoTrigger={this.triggerInfo}
             operation={this.state.operation}
             marketChange={this.marketChange}
             stateChange={this.onChange}
@@ -253,6 +292,15 @@ class Cura extends Component {
           />
         </Grid>
       </Grid>
+      <Alert
+        trigger={this.state.alert}
+        bodyTitle={this.state.title}
+        bodyText={this.state.body}
+        buttonState={this.state.button}
+        openModal={this.openModal}
+        closeModal={this.closeModal}
+        />
+    </Fragment >
     );
   }
 }
