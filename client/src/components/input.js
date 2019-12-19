@@ -11,6 +11,26 @@ const TextInput = styled(TextField)(style);
 class Input extends Component {
   constructor(props) {
     super(props)
+    this.state = {}
+  }
+
+  detectState = async(event) => {
+    const { stateChange, market, currency } = this.props;
+
+    if(market === currency){
+      await this.setState({ value: event.target.value });
+      await this.props.stateChange(event.target.value);
+    }
+  }
+
+ componentWillReceiveProps = (props) => {
+    const { rate, market, currency } = props;
+
+    if(market !== currency && !isNaN(rate)){
+      this.setState({
+        value: rate
+      });
+    }
   }
 
   NumberFormatCustom = (props) => {
@@ -27,16 +47,28 @@ class Input extends Component {
           },
         });
       }}
+      decimalScale={3}
+      fixedDecimalScale
       thousandSeparator
       isNumericString
       />
     );
   }
 
+  detectMarket = async() => {
+    const { rate, market, currency } = this.props;
+
+    if(market !== currency){
+      await this.props.marketChange(currency);
+    }
+  }
+
   render() {
     return (
-      <TextInput onChange={(e) => this.props.stateChange(e, this.props.currency)}
-         label={this.props.label} variant="outlined" helperText={
+      <TextInput onSelect={this.detectMarket}
+        onChange={this.detectState} value={this.state.value}
+        label={this.props.label} variant="outlined"
+         helperText={
           <span> {this.props.currency === "DAI" ?
           "1 DAI = 1.75 CuraDAI" : "1.78 CuraDAI = 1 DAI"}
         </span>}

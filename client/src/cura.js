@@ -16,7 +16,8 @@ class Cura extends Component {
     super(props)
       this.state = {
         operation: this.initialiseWeb3,
-        phase: "Connect"
+        phase: "Connect",
+        market: "DAI"
       }
   }
 
@@ -109,23 +110,24 @@ class Cura extends Component {
     );
   }
 
-  proofAllowance = async(_market, _exchange) => {
-    const { curaInstance, daiInstance, account, web3 } = this.state;
+  proofAllowance = async(_exchange) => {
+    const { curaInstance, daiInstance, market, account, web3 } = this.state;
     const contract = curaInstance.options.address;
 
-    const instance = _market === "DAI" ? daiInstance : curaInstance;
+    const instance = market === "DAI" ? daiInstance : curaInstance;
     const approval = await instance.methods.allowance(account, contract).call();
-    const amount = web3.utils.toBN(_exchange).mul(web3.utils.toBN(1e18)).toString();
+    const amount = web3.utils.toBN(parseInt(_exchange)).mul(web3.utils.toBN(1e18)).toString();
     const validity = parseInt(approval) >= parseInt(amount);
 
-    this.setState({
-      exchange: amount, market: _market,
+    await this.setState({
+      exchange: amount
     }); return validity;
   }
 
-  onChange = async(_event, _asset) => {
+  onChange = async(_value) => {
+    await this.exchangeRate(_value);
     if(this.state.phase !== "Connect"){
-      const approvalValidity = await this.proofAllowance(_asset, _event.target.value);
+      const approvalValidity = await this.proofAllowance(_value);
 
       if(approvalValidity){
         this.setState({
@@ -141,15 +143,36 @@ class Cura extends Component {
     }
   }
 
+  exchangeRate = async(_exchange) => {
+    if(this.state.market === "DAI") {
+      this.setState({
+        rate: (parseFloat(_exchange)/parseFloat(1.75))
+      });
+    } else if(this.state.market === "CuraDAI"){
+      this.setState({
+        rate: (parseFloat(_exchange)*parseFloat(1.78))
+      });
+    }
+  }
+
+  marketChange = (_market) => {
+    this.setState({
+      market: _market
+    });
+  }
+
   render() {
     return (
       <Grid container justify="center" alignItems="center" style={stock}>
         <Grid item>
           <Modal
             operation={this.state.operation}
+            marketChange={this.marketChange}
             stateChange={this.onChange}
+            market={this.state.market}
             balances={this.getBalances}
             phase={this.state.phase}
+            rate={this.state.rate}
             cura={this.state.cura}
             dai={this.state.dai}
           />

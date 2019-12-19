@@ -35,7 +35,11 @@ class Modal extends Component {
               <img className='logo' src={normDAI} />
             </Grid>
             <Grid item>
-              <Input stateChange={this.props.stateChange} currency='DAI' label='Amount'/>
+              <Input market={this.props.market} rate={this.props.rate}
+                marketChange={this.props.marketChange}
+                stateChange={this.props.stateChange}
+                currency='DAI' label='Amount'
+              />
             </Grid>
           </Grid>
           <Grid item container direction='row' justify='center' spacing={3}>
@@ -43,7 +47,11 @@ class Modal extends Component {
               <img className='logo' src={curaDAI} />
             </Grid>
             <Grid item>
-            <Input stateChange={this.props.stateChange} currency='CuraDAI' label='Amount'/>
+              <Input market={this.props.market} rate={this.props.rate}
+                marketChange={this.props.marketChange}
+                stateChange={this.props.stateChange}
+                currency='CuraDAI' label='Amount'
+              />
             </Grid>
           </Grid>
           <Grid item>
