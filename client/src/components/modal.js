@@ -32,7 +32,9 @@ class Modal extends Component {
           </Grid>
           <Grid item container direction='row' justify='center' spacing={3}>
             <Grid item>
-              <img className='logo' src={normDAI} />
+              <div className="DAI">
+                <img src={normDAI} className="logo-DAI" />
+              </div>
             </Grid>
             <Grid item>
               <Input market={this.props.market} rate={this.props.rate}
@@ -44,7 +46,9 @@ class Modal extends Component {
           </Grid>
           <Grid item container direction='row' justify='center' spacing={3}>
             <Grid item>
-              <img className='logo' src={curaDAI} />
+              <div className="CuraDAI">
+                <img src={curaDAI} className="logo-CuraDAI" />
+              </div>
             </Grid>
             <Grid item>
               <Input market={this.props.market} rate={this.props.rate}

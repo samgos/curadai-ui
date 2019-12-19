@@ -19,7 +19,9 @@ class Input extends Component {
 
     if(market === currency){
       await this.setState({ value: event.target.value });
-      await this.props.stateChange(event.target.value);
+      await this.props.stateChange(
+        parseFloat(event.target.value)
+      );
     }
   }
 
@@ -47,8 +49,6 @@ class Input extends Component {
           },
         });
       }}
-      decimalScale={3}
-      fixedDecimalScale
       thousandSeparator
       isNumericString
       />

@@ -21,6 +21,10 @@ class Cura extends Component {
       }
   }
 
+  componentDidMount = () => {
+    this.setStyle("DAI", true);
+  }
+
   initialiseWeb3 = async() => {
     try {
       const provider = await getWeb3();
@@ -46,8 +50,10 @@ class Cura extends Component {
 
   getBalances = async() => {
     const { curaInstance, daiInstance, account } = this.state;
-    const cura = await curaInstance.methods.balanceOf(account).call();
-    const dai = await daiInstance.methods.balanceOf(account).call();
+    const curaCall = await curaInstance.methods.balanceOf(account).call();
+    const daiCall = await daiInstance.methods.balanceOf(account).call();
+    const cura = await this.parseInput(curaCall);
+    const dai = await this.parseInput(daiCall);
 
     this.setState({
       cura, dai
@@ -60,7 +66,7 @@ class Cura extends Component {
     if(market === "DAI") {
       await this.mintCura(account, exchange);
     } else if(market === "CuraDAI"){
-      await this.mintCura(account, exchange);
+      await this.burnCura(account, exchange);
     } await this.getBalances();
   }
 
@@ -70,40 +76,60 @@ class Cura extends Component {
 
     const instance = market === "DAI" ? daiInstance : curaInstance;
 
-    return new Promise((resolve, reject) =>
+    await this.setState({ phase: "Pending..." });
+
+    await new Promise((resolve, reject) =>
       instance.methods.approve(contract, exchange).send({
         from: account
-      }).on('confirmation',
-      (confirmationNumber, receipt) => {
-        resolve(receipt)
+      }).on('transactionHash',
+      async(confirmationNumber, receipt) => {
+          await this.getBalances();
+          await this.setState({
+            operation: this.swapTokens,
+            phase: "Swap"
+          }); resolve(receipt);
       }).on('error', (error) => {
         reject(error)
       })
     );
   }
 
-  burnCura = (account, amount) => {
+  burnCura = async(account, amount) => {
     const { curaInstance } = this.state;
-    return new Promise((resolve, reject) =>
-      curaInstance.methods.burn(`${amount}`).send({
+
+    await this.setState({ phase: "Pending..." });
+
+    await new Promise((resolve, reject) =>
+      curaInstance.methods.burn(amount).send({
         from: account
-      }).on('confirmation',
-      (confirmationNumber, receipt) => {
-        resolve(receipt)
+      }).on('transactionHash',
+      async(confirmationNumber, receipt) => {
+          await this.getBalances();
+          await this.setState({
+            operation: this.swapTokens,
+            phase: "Swap"
+          }); resolve(receipt);
       }).on('error', (error) => {
         reject(error)
       })
     );
   }
 
-  mintCura = (instance, account, amount) => {
+  mintCura = async(account, amount) => {
     const { curaInstance } = this.state;
-    return new Promise((resolve, reject) =>
-      curaInstance.methods.mint(`${amount}`).send({
+
+    await this.setState({ phase: "Pending..." });
+
+    await new Promise((resolve, reject) =>
+      curaInstance.methods.mint(amount).send({
         from: account
-      }).on('confirmation',
-      (confirmationNumber, receipt) => {
-        resolve(receipt)
+      }).on('transactionHash',
+      async(confirmationNumber, receipt) => {
+          await this.getBalances();
+          await this.setState({
+            operation: this.swapTokens,
+            phase: "Swap"
+          }); resolve(receipt);
       }).on('error', (error) => {
         reject(error)
       })
@@ -112,11 +138,11 @@ class Cura extends Component {
 
   proofAllowance = async(_exchange) => {
     const { curaInstance, daiInstance, market, account, web3 } = this.state;
+    const amount = await this.convertInput(_exchange);
     const contract = curaInstance.options.address;
 
     const instance = market === "DAI" ? daiInstance : curaInstance;
     const approval = await instance.methods.allowance(account, contract).call();
-    const amount = web3.utils.toBN(parseInt(_exchange)).mul(web3.utils.toBN(1e18)).toString();
     const validity = parseInt(approval) >= parseInt(amount);
 
     await this.setState({
@@ -126,7 +152,7 @@ class Cura extends Component {
 
   onChange = async(_value) => {
     await this.exchangeRate(_value);
-    if(this.state.phase !== "Connect"){
+    if(this.state.phase !== "Connect" && !isNaN(_value)){
       const approvalValidity = await this.proofAllowance(_value);
 
       if(approvalValidity){
@@ -144,21 +170,70 @@ class Cura extends Component {
   }
 
   exchangeRate = async(_exchange) => {
-    if(this.state.market === "DAI") {
+    if(this.state.market === "CuraDAI") {
+      var value = (parseFloat(_exchange)/parseFloat(1.78));
+      value = value % 1 === 0 ? value : value.toFixed(2);
       this.setState({
-        rate: (parseFloat(_exchange)/parseFloat(1.75))
+        rate: value
       });
-    } else if(this.state.market === "CuraDAI"){
+    } else if(this.state.market === "DAI"){
+      var value = (parseFloat(_exchange)*parseFloat(1.75));
+      value = value % 1 === 0 ? value : value.toFixed(2);
       this.setState({
-        rate: (parseFloat(_exchange)*parseFloat(1.78))
+        rate: value
       });
     }
   }
 
+  convertInput = async(_amount) => {
+    const { web3 } = this.state;
+
+    if(_amount % 1 === 1) {
+      return parseFloat(web3.utils.toBN(_amount).mul(
+        web3.utils.toBN(1e18)
+      )).toLocaleString('fullwide', {useGrouping:false});
+    } else {
+      return parseFloat((_amount)*Math.pow(10,18)
+      ).toLocaleString('fullwide', {useGrouping:false});
+    }
+  }
+
+  parseInput = async(_amount) => {
+    return (parseFloat(_amount)/Math.pow(10,18)).toFixed(2).toString();
+  }
+
   marketChange = (_market) => {
+    const reset = _market === "DAI" ? "CuraDAI" : "DAI";
+
+    this.setStyle(reset, false);
+    this.setStyle(_market, true);
+
     this.setState({
       market: _market
     });
+  }
+
+  setStyle = (_element, _bool) => {
+    const wrapper = document.getElementsByClassName(`logo-${_element}`)[0];
+    const target = document.getElementsByClassName(_element)[0];
+
+    if(_bool){
+      target.style["border-radius"] = "75px";
+
+      if(_element === "CuraDAI"){
+        target.style.border = "solid 2px #ffffff";
+      } else {
+        target.style.border = "solid 3.575px #ffffff";
+      }
+
+      target.style.background = "#ffffff";
+      wrapper.style.background = "#ffffff";
+    } else {
+      target.style["border-radius"] = "none";
+      wrapper.style.background = "none";
+      target.style.background = "none";
+      target.style.border = "none";
+    }
   }
 
   render() {
