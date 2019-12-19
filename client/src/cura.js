@@ -2,11 +2,10 @@ import React, { Component, Fragment } from 'react';
 import getWeb3 from './utils/getWeb3';
 
 import { CURADAI_ADDRESS, DAI_ADDRESS } from './constants/contracts';
-import { contractInstance } from './utils/operations';
-import { parseInput } from './constants/functions';
-import ALERT from './constants/alerts';
 import CuraDai from './contracts/CuraDai.json';
 import ERC20 from './contracts/ERC20.json';
+import ALERT from './constants/alerts';
+import OP from './utils/operations';
 
 import Grid from '@material-ui/core/Grid';
 import Modal from './components/modal';
@@ -41,8 +40,8 @@ class Cura extends Component {
 
       if(networkId === 4){
 
-        const curaInstance = await contractInstance(web3, CuraDai, CURADAI_ADDRESS);
-        const daiInstance = await contractInstance(web3, ERC20, DAI_ADDRESS);
+        const curaInstance = await OP.contractInstance(web3, CuraDai, CURADAI_ADDRESS);
+        const daiInstance = await OP.contractInstance(web3, ERC20, DAI_ADDRESS);
 
         await this.setState({
           daiInstance, curaInstance, operation, account, phase, web3
@@ -67,8 +66,8 @@ class Cura extends Component {
     const { curaInstance, daiInstance, account } = this.state;
     const curaCall = await curaInstance.methods.balanceOf(account).call();
     const daiCall = await daiInstance.methods.balanceOf(account).call();
-    const cura = await parseInput(curaCall);
-    const dai = await parseInput(daiCall);
+    const cura = await OP.parseInput(curaCall);
+    const dai = await OP.parseInput(daiCall);
 
     this.setState({
       cura, dai
