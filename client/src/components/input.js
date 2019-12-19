@@ -35,8 +35,9 @@ class Input extends Component {
 
   render() {
     return (
-      <TextInput label={this.props.label} variant="outlined"
-        helperText={<span> {this.props.currency === "DAI" ?
+      <TextInput onChange={(e) => this.props.stateChange(e, this.props.currency)}
+         label={this.props.label} variant="outlined" helperText={
+          <span> {this.props.currency === "DAI" ?
           "1 DAI = 1.75 CuraDAI" : "1.78 CuraDAI = 1 DAI"}
         </span>}
         InputProps={{

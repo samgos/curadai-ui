@@ -24,7 +24,7 @@ class Cura extends Component {
     try {
       const provider = await getWeb3();
       const account = provider.accounts[0];
-      const operation = this.swapTokens;
+      const operation = this.approveTokens;
       const web3 = provider.web3;
       const phase = "Swap";
 
@@ -53,12 +53,84 @@ class Cura extends Component {
     });
   }
 
+  swapTokens = async() => {
+    const { market, exchange, curaInstance, daiInstance, account, web3 } = this.state;
+    const contract = curaInstance.options.address;
+
+    const instance = market === "DAI" ? daiInstance : curaInstance;
+    const approval = await instance.methods.allowance(account, contract).call();
+    const amount = web3.utils.toBN(exchange).mul(web3.utils.toBN(1e18)).toString();
+
+    if(parseInt(approval) >= parseInt(amount)){
+      if(market === "DAI") {
+        await this.mintCura(account, amount);
+      } else if(market === "CuraDAI"){
+        await this.mintCura(account, amount);
+      } await this.getBalances();
+    }
+  }
+
+  approveTokens = async() => {
+    const { market, exchange, curaInstance, daiInstance, account, web3 } = this.state;
+    const contract = curaInstance.options.address;
+
+    const instance = market === "DAI" ? daiInstance : curaInstance;
+    const amount = web3.utils.toBN(exchange).mul(web3.utils.toBN(1e18)).toString();
+
+    return new Promise((resolve, reject) =>
+      instance.methods.approve(contract, amount).send({
+        from: account
+      }).on('confirmation',
+      (confirmationNumber, receipt) => {
+        resolve(receipt)
+      }).on('error', (error) => {
+        reject(error)
+      })
+    );
+  }
+
+  burnCura = (account, amount) => {
+    const { curaInstance } = this.state;
+    return new Promise((resolve, reject) =>
+      curaInstance.methods.burn(`${amount}`).send({
+        from: account
+      }).on('confirmation',
+      (confirmationNumber, receipt) => {
+        resolve(receipt)
+      }).on('error', (error) => {
+        reject(error)
+      })
+    );
+  }
+
+  mintCura = (instance, account, amount) => {
+    const { curaInstance } = this.state;
+    return new Promise((resolve, reject) =>
+      curaInstance.methods.mint(`${amount}`).send({
+        from: account
+      }).on('confirmation',
+      (confirmationNumber, receipt) => {
+        resolve(receipt)
+      }).on('error', (error) => {
+        reject(error)
+      })
+    );
+  }
+
+  onChange = (_event, _asset) => {
+    this.setState({
+      exchange: _event.target.value,
+      market: _asset
+    });
+  }
+
   render() {
     return (
       <Grid container justify="center" alignItems="center" style={stock}>
         <Grid item>
           <Modal
             operation={this.state.operation}
+            stateChange={this.onChange}
             balances={this.getBalances}
             phase={this.state.phase}
             cura={this.state.cura}
