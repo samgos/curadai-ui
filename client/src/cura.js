@@ -26,7 +26,7 @@ class Cura extends Component {
       const account = provider.accounts[0];
       const operation = this.approveTokens;
       const web3 = provider.web3;
-      const phase = "Swap";
+      const phase = "Approve";
 
       // Not needed for main-net/rinkeby deployments
         const networkId = await web3.eth.net.getId();
@@ -54,20 +54,13 @@ class Cura extends Component {
   }
 
   swapTokens = async() => {
-    const { market, exchange, curaInstance, daiInstance, account, web3 } = this.state;
-    const contract = curaInstance.options.address;
+    const { account, market, exchange } = this.state;
 
-    const instance = market === "DAI" ? daiInstance : curaInstance;
-    const approval = await instance.methods.allowance(account, contract).call();
-    const amount = web3.utils.toBN(exchange).mul(web3.utils.toBN(1e18)).toString();
-
-    if(parseInt(approval) >= parseInt(amount)){
-      if(market === "DAI") {
-        await this.mintCura(account, amount);
-      } else if(market === "CuraDAI"){
-        await this.mintCura(account, amount);
-      } await this.getBalances();
-    }
+    if(market === "DAI") {
+      await this.mintCura(account, exchange);
+    } else if(market === "CuraDAI"){
+      await this.mintCura(account, exchange);
+    } await this.getBalances();
   }
 
   approveTokens = async() => {
@@ -75,10 +68,9 @@ class Cura extends Component {
     const contract = curaInstance.options.address;
 
     const instance = market === "DAI" ? daiInstance : curaInstance;
-    const amount = web3.utils.toBN(exchange).mul(web3.utils.toBN(1e18)).toString();
 
     return new Promise((resolve, reject) =>
-      instance.methods.approve(contract, amount).send({
+      instance.methods.approve(contract, exchange).send({
         from: account
       }).on('confirmation',
       (confirmationNumber, receipt) => {
@@ -117,11 +109,36 @@ class Cura extends Component {
     );
   }
 
-  onChange = (_event, _asset) => {
+  proofAllowance = async(_market, _exchange) => {
+    const { curaInstance, daiInstance, account, web3 } = this.state;
+    const contract = curaInstance.options.address;
+
+    const instance = _market === "DAI" ? daiInstance : curaInstance;
+    const approval = await instance.methods.allowance(account, contract).call();
+    const amount = web3.utils.toBN(_exchange).mul(web3.utils.toBN(1e18)).toString();
+    const validity = parseInt(approval) >= parseInt(amount);
+
     this.setState({
-      exchange: _event.target.value,
-      market: _asset
-    });
+      exchange: amount, market: _market,
+    }); return validity;
+  }
+
+  onChange = async(_event, _asset) => {
+    if(this.state.phase !== "Connect"){
+      const approvalValidity = await this.proofAllowance(_asset, _event.target.value);
+
+      if(approvalValidity){
+        this.setState({
+          operation: this.swapTokens,
+          phase: "Swap"
+        });
+      } else {
+        this.setState({
+          operation: this.approveTokens,
+          phase: "Approve"
+        });
+      }
+    }
   }
 
   render() {
