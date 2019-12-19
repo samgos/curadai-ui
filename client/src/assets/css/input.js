@@ -1,7 +1,7 @@
 const input = ({
   width: '15em',
   '&:hover fieldset': {
-    borderColor: '#8e2de2 !important',
+    borderColor: '#6680ff !important',
   },
   '& label': {
     color: 'white'
@@ -19,7 +19,7 @@ const input = ({
   },
   '& input:valid:focus + fieldset': {
     borderWidth: 3,
-    borderColor: '#8e2de2',
+    borderColor: '#6680ff',
     paddingRight: '5px !important',
     paddingLeft: '8px !important',
   },
