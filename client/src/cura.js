@@ -38,7 +38,7 @@ class Cura extends Component {
 
       const networkId = await web3.eth.net.getId();
 
-      if(networkId === 4){
+      if(networkId === 1){
 
         const curaInstance = await OP.contractInstance(web3, CuraDai, CURADAI_ADDRESS);
         const daiInstance = await OP.contractInstance(web3, ERC20, DAI_ADDRESS);
