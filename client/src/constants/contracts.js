@@ -1,4 +1,4 @@
-const CURADAI_ADDRESS = "0x4c12641a87993f4ebdff13ee23229b5aabf29911";
+const CURADAI_ADDRESS = "0xbf1f0ba85e62166429179406da947cc585fd1ac2";
 const DAI_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
 
 module.exports = {

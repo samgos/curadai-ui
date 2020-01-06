@@ -5,8 +5,6 @@ import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
-// TODO add permit of MCD
-
 contract CuraDai is ERC20Detailed, ERC20 {
 
   using SafeMath for uint256;
@@ -45,7 +43,7 @@ contract CuraDai is ERC20Detailed, ERC20 {
   // Pulls the spread. We pull it in batches to lower gas costs for end users.
   function pullSpread() external returns(uint256) {
     // Spread equals balance of minus the amount of underlying that should be in the contract in the case of a full bankrun
-    uint256 spread = underlying.balanceOf(address(this)).sub(this.totalSupply().mul(burnPrice).div(10**18));
+    uint256 spread = underlying.balanceOf(address(this)).sub(this.totalSupply().mul(10**18).div(burnPrice));
     // Transfer the spread
     underlying.transfer(msg.sender, spread);
     return spread;
