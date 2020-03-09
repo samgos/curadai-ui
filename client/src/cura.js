@@ -1,108 +1,87 @@
-import React, { Component, Fragment } from 'react';
-import getWeb3 from './utils/getWeb3';
+import React, { useEffect, useState, useContext, useRef, Fragment } from 'react'
+import getWeb3 from './utils/getWeb3'
 
-import { CURADAI_ADDRESS, DAI_ADDRESS } from './constants/contracts';
-import CuraDai from './contracts/CuraDai.json';
-import ERC20 from './contracts/ERC20.json';
-import ALERT from './constants/alerts';
-import OP from './utils/operations';
+import { CURADAI_ADDRESS, DAI_ADDRESS } from './constants/contracts'
+import ALERT from './constants/alerts'
+import OP from './utils/operations'
 
-import Grid from '@material-ui/core/Grid';
-import Modal from './components/modal';
-import Alert from './components/alert';
-import stock from './assets/css/stock';
-import './assets/css/stock.css';
+import Grid from '@material-ui/core/Grid'
+import Modal from './components/modal'
+import Alert from './components/alert'
+import stock from './assets/css/stock'
+import './assets/css/stock.css'
 
-class Cura extends Component {
-  constructor(props) {
-    super(props)
-      this.state = {
-        operation: this.initialiseWeb3,
-        phase: "Connect",
-        alert: false,
-        market: "DAI"
+import { store } from './state'
+
+function Cura(props){
+  const [ modalContent, setContent ] = useState({ title: "", body: "", button: true })
+  const [ exchangeBalance, setBalances ] = useState({ cura: 0, dai: 0 })
+  const [ buttonOperation, setOperation ] = useState(() => {})
+  const [ exchangePhase, setPhase ] = useState("Connect")
+  const [ exchangeMarket, setMarket ] = useState("DAI")
+  const [ exchangeRate, setRate ] = useState(1.75)
+  const [ modalAlert, setAlert ] = useState(false)
+  const [ exchangeAmount, setExchange ] = useState(0)
+
+  let { state, dispatch } = useContext(store)
+
+  const initialiseWeb3 = async() => {
+    try {
+      const provider = await getWeb3()
+      let { web3, account } = provider
+
+      const cura = await OP.contractInstance(web3, CURADAI_ADDRESS)
+      const dai = await OP.contractInstance(web3, DAI_ADDRESS)
+      const network = await web3.eth.net.getId()
+
+      setOperation(approveTokens)
+      dispatch({ payload: {
+          dai, cura, account, web3, network
+        }, type: "WEB3"
+      })
+      setPhase("Approve")
+      } catch(e) {
+        alert("Web3 provider could not be found")
       }
   }
 
-  componentDidMount = () => {
-    this.setStyle("DAI", true);
+  const getBalances = async() => {
+    const curaCall = await state.cura.methods.balanceOf(state.account).call()
+    const daiCall = await state.dai.methods.balanceOf(state.account).call()
+    const curaBalance = await OP.parseInput(curaCall)
+    const daiBalance = await OP.parseInput(daiCall)
+
+    setBalances({
+      cura: curaBalance, dai: daiBalance
+    })
   }
 
-  initialiseWeb3 = async() => {
-    try {
-      const provider = await getWeb3();
-      const account = provider.accounts[0];
-      const operation = this.approveTokens;
-      const web3 = provider.web3;
-      const phase = "Approve";
+  const swapTokens = async() => {
+    let { account } = state
 
-      const networkId = await web3.eth.net.getId();
-
-      if(networkId === 1){
-
-        const curaInstance = await OP.contractInstance(web3, CuraDai, CURADAI_ADDRESS);
-        const daiInstance = await OP.contractInstance(web3, ERC20, DAI_ADDRESS);
-
-        await this.setState({
-          daiInstance, curaInstance, operation, account, phase, web3
-        }, async() => await this.getBalances());
-     } else {
-       await this.setState({
-         title:  ALERT.NETWORK_TITLE,
-         body: ALERT.NETWORK_BODY,
-         button: false
-       }, this.openModal());
-     }
-   } catch(e){
-      await this.setState({
-        title:  ALERT.WEB3_TITLE,
-        body: ALERT.WEB3_BODY,
-        button: false
-      }, this.openModal());
-    }
+    if(exchangeMarket === "DAI") {
+      await mintCura(account, exchangeRate)
+    } else if(exchangeMarket === "CuraDAI"){
+      await burnCura(account, exchangeRate)
+    } await getBalances()
   }
 
-  getBalances = async() => {
-    const { curaInstance, daiInstance, account } = this.state;
-    const curaCall = await curaInstance.methods.balanceOf(account).call();
-    const daiCall = await daiInstance.methods.balanceOf(account).call();
-    const cura = await OP.parseInput(curaCall);
-    const dai = await OP.parseInput(daiCall);
+  const approveTokens = async() => {
+    let { cura, dai, account, web3 } = state
+    const contract = cura.options.address
 
-    this.setState({
-      cura, dai
-    });
-  }
+    const instance = exchangeMarket === "DAI" ? dai : cura
 
-  swapTokens = async() => {
-    const { account, market, exchange } = this.state;
-
-    if(market === "DAI") {
-      await this.mintCura(account, exchange);
-    } else if(market === "CuraDAI"){
-      await this.burnCura(account, exchange);
-    } await this.getBalances();
-  }
-
-  approveTokens = async() => {
-    const { market, exchange, curaInstance, daiInstance, account, web3 } = this.state;
-    const contract = curaInstance.options.address;
-
-    const instance = market === "DAI" ? daiInstance : curaInstance;
-
-    await this.setState({ phase: "Pending..." });
+    setPhase("Pending...")
 
     await new Promise((resolve, reject) =>
-      instance.methods.approve(contract, exchange).send({
+      instance.methods.approve(contract, exchangeAmount).send({
         from: account
-      }).on('confirmation',
-      async(confirmationNumber, receipt) => {
+      }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
-          await this.getBalances();
-          await this.setState({
-            operation: this.swapTokens,
-            phase: "Swap"
-          }); resolve(receipt);
+          setOperation(swapTokens)
+          setPhase("Swap")
+          resolve(receipt)
         }
       }).on('error', (error) => {
         reject(error)
@@ -110,22 +89,17 @@ class Cura extends Component {
     );
   }
 
-  burnCura = async(account, amount) => {
-    const { curaInstance } = this.state;
-
-    await this.setState({ phase: "Pending..." });
+  const burnCura = async(account, amount) => {
+    setPhase("Pending...")
 
     await new Promise((resolve, reject) =>
-      curaInstance.methods.burn(amount).send({
+      state.cura.methods.burn(amount).send({
         from: account
-      }).on('confirmation',
-      async(confirmationNumber, receipt) => {
+      }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
-          await this.getBalances();
-          await this.setState({
-            operation: this.swapTokens,
-            phase: "Swap"
-          }); resolve(receipt);
+          setOperation(swapTokens)
+          setPhase("Swap")
+          resolve(receipt)
         }
       }).on('error', (error) => {
         reject(error)
@@ -133,22 +107,17 @@ class Cura extends Component {
     );
   }
 
-  mintCura = async(account, amount) => {
-    const { curaInstance } = this.state;
-
-    await this.setState({ phase: "Pending..." });
+  const mintCura = async(account, amount) => {
+    setPhase("Pending...")
 
     await new Promise((resolve, reject) =>
-      curaInstance.methods.mint(amount).send({
+      state.cura.methods.mint(amount).send({
         from: account
-      }).on('confirmation',
-      async(confirmationNumber, receipt) => {
+      }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
-          await this.getBalances();
-          await this.setState({
-            operation: this.swapTokens,
-            phase: "Swap"
-          }); resolve(receipt);
+          setOperation(swapTokens)
+          setPhase("Swap")
+          resolve(receipt)
         }
       }).on('error', (error) => {
         reject(error)
@@ -156,80 +125,67 @@ class Cura extends Component {
     );
   }
 
-  proofAllowance = async(_exchange) => {
-    const { curaInstance, daiInstance, market, account, web3 } = this.state;
-    const amount = await this.convertInput(_exchange);
-    const contract = curaInstance.options.address;
+  const proofAllowance = async(_exchange) => {
+    const { cura, dai, account, web3 } = state
+    const amount = await convertInput(_exchange)
+    const contract = cura.options.address
 
-    const instance = market === "DAI" ? daiInstance : curaInstance;
-    const approval = await instance.methods.allowance(account, contract).call();
-    const validity = parseInt(approval) >= parseInt(amount);
+    const instance = exchangeMarket === "DAI" ? dai : cura
+    const approval = await instance.methods.allowance(account, contract).call()
+    const validity = parseInt(approval) >= parseInt(amount)
 
-    await this.setState({
-      exchange: amount
-    }); return validity;
+    setExchange(amount)
+    return validity
   }
 
-  onChange = async(_value) => {
-    await this.exchangeRate(_value);
-    if(this.state.phase !== "Connect" && !isNaN(_value)){
-      const approvalValidity = await this.proofAllowance(_value);
+  const onChange = async(_value) => {
+    await discoverRate(_value)
+    if(exchangePhase !== "Connect" && !isNaN(_value)){
+      const approvalValidity = await proofAllowance(_value)
 
       if(approvalValidity){
-        this.setState({
-          operation: this.swapTokens,
-          phase: "Swap"
-        });
+        setOperation(swapTokens)
+        setPhase("Swap")
       } else {
-        this.setState({
-          operation: this.approveTokens,
-          phase: "Approve"
-        });
+        setOperation(approveTokens)
+        setPhase("Approve")
       }
     }
   }
 
-  exchangeRate = async(_exchange) => {
-    if(this.state.market === "CuraDAI") {
+  const discoverRate = async(_exchange) => {
+    if(exchangeMarket === "CuraDAI") {
       var value = (parseFloat(_exchange)/parseFloat(1.78));
       value = value % 1 === 0 ? value : value.toFixed(2);
-      this.setState({
-        rate: value
-      });
-    } else if(this.state.market === "DAI"){
+      setRate(value)
+    } else if(exchangeMarket === "DAI"){
       var value = (parseFloat(_exchange)*parseFloat(1.75));
       value = value % 1 === 0 ? value : value.toFixed(2);
-      this.setState({
-        rate: value
-      });
+      setRate(value)
     }
   }
 
-  convertInput = async(_amount) => {
-    const { web3 } = this.state;
-
+  const convertInput = async(_amount) => {
     if(_amount % 1 === 1) {
-      return parseFloat(web3.utils.toBN(_amount).mul(
-        web3.utils.toBN(1e18)
-      )).toLocaleString('fullwide', {useGrouping:false});
+      return parseFloat(state.web3.utils.toBN(_amount).mul(
+        state.web3.utils.toBN(1e18)
+      )).toLocaleString('fullwide', { useGrouping:false });
     } else {
       return parseFloat((_amount)*Math.pow(10,18)
-      ).toLocaleString('fullwide', {useGrouping:false});
+      ).toLocaleString('fullwide', { useGrouping:false });
     }
   }
 
-  marketChange = (_market) => {
+  const marketChange = (_market) => {
     const reset = _market === "DAI" ? "CuraDAI" : "DAI";
 
-    this.setStyle(reset, false);
-    this.setStyle(_market, true);
+    setStyle(reset, false);
+    setStyle(_market, true);
 
-    this.setState({
-      market: _market
-    });
+    setMarket(_market)
   }
 
-  setStyle = (_element, _bool) => {
+  const setStyle = (_element, _bool) => {
     const wrapper = document.getElementsByClassName(`logo-${_element}`)[0];
     const target = document.getElementsByClassName(_element)[0];
 
@@ -252,56 +208,56 @@ class Cura extends Component {
     }
   }
 
-  triggerInfo = async() => {
-    await this.setState({
+  const triggerInfo = async() => {
+    setContent({
       title:  ALERT.INFO_TITLE,
       body: ALERT.INFO_BODY,
       button: true
-    }, this.openModal());
-  }
-
-  openModal = () => {
-    this.setState({
-      alert: true
     })
+    openModal()
   }
 
-  closeModal = () => {
-    this.setState({
-      alert: false
-    })
+  const openModal = () => {
+    setAlert(true)
   }
 
-  render() {
-    return (
+  const closeModal = () => {
+    setAlert(false)
+  }
+
+  useEffect(() => {
+    setOperation(initialiseWeb3)
+    setStyle("DAI", true)
+  }, [])
+
+  return (
      <Fragment>
       <Grid container justify="center" alignItems="center" style={stock}>
         <Grid item>
           <Modal
-            infoTrigger={this.triggerInfo}
-            operation={this.state.operation}
-            marketChange={this.marketChange}
-            stateChange={this.onChange}
-            market={this.state.market}
-            balances={this.getBalances}
-            phase={this.state.phase}
-            rate={this.state.rate}
-            cura={this.state.cura}
-            dai={this.state.dai}
+            infoTrigger={triggerInfo}
+            operation={buttonOperation}
+            marketChange={marketChange}
+            stateChange={onChange}
+            market={exchangeMarket}
+            balances={getBalances}
+            phase={exchangePhase}
+            rate={exchangeRate}
+            cura={exchangeBalance.cura}
+            dai={exchangeBalance.dai}
           />
         </Grid>
       </Grid>
       <Alert
-        trigger={this.state.alert}
-        bodyTitle={this.state.title}
-        bodyText={this.state.body}
-        buttonState={this.state.button}
-        openModal={this.openModal}
-        closeModal={this.closeModal}
+        trigger={modalAlert}
+        bodyTitle={modalContent.title}
+        bodyText={modalContent.body}
+        buttonState={modalContent.button}
+        openModal={openModal}
+        closeModal={closeModal}
         />
     </Fragment >
-    );
-  }
+  );
 }
 
 export default Cura;

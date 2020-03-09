@@ -1,8 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Cura from './cura';
-import * as serviceWorker from './utils/serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-ReactDOM.render(<Cura />, document.getElementById('root'));
+import * as serviceWorker from './utils/serviceWorker'
+import { StateProvider } from './state'
+import Cura from './cura'
+
+ReactDOM.render(
+  <StateProvider> <Cura /> </StateProvider>,
+  document.getElementById('root')
+);
 
 serviceWorker.unregister();

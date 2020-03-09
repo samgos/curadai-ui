@@ -11,7 +11,7 @@ const getWeb3 = () =>
           const accounts = await web3.eth.getAccounts();
           // Acccounts now exposed
           resolve({
-            web3, accounts
+            web3, account: accounts[0]
           });
         } catch (error) {
           reject(error);
