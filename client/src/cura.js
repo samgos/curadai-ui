@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef, Fragment } from 'react'
+import React, { useEffect, useState, useContext, Fragment } from 'react'
 import getWeb3 from './utils/getWeb3'
 
 import { CURADAI_ADDRESS, DAI_ADDRESS } from './constants/contracts'
@@ -16,7 +16,6 @@ import { store } from './state'
 function Cura(props){
   const [ modalContent, setContent ] = useState({ title: "", body: "", button: true })
   const [ exchangeBalance, setBalances ] = useState({ cura: 0, dai: 0 })
-  const [ buttonOperation, setOperation ] = useState(() => {})
   const [ exchangePhase, setPhase ] = useState("Connect")
   const [ exchangeMarket, setMarket ] = useState("DAI")
   const [ exchangeRate, setRate ] = useState(1.75)
@@ -34,15 +33,14 @@ function Cura(props){
       const dai = await OP.contractInstance(web3, DAI_ADDRESS)
       const network = await web3.eth.net.getId()
 
-      setOperation(approveTokens)
-      dispatch({ payload: {
+      await dispatch({ payload: {
           dai, cura, account, web3, network
-        }, type: "WEB3"
+        }, type: 'WEB3'
       })
-      setPhase("Approve")
-      } catch(e) {
-        alert("Web3 provider could not be found")
-      }
+      setPhase('Approve')
+    } catch(e) {
+      alert('Web3 provider could not be found')
+    }
   }
 
   const getBalances = async() => {
@@ -208,6 +206,20 @@ function Cura(props){
     }
   }
 
+  const buttonOperation = () => {
+    switch(exchangePhase){
+      case: "Connect"
+        initialiseWeb3()
+        break;
+      case: "Approve"
+        approveTokens()
+        break;
+      case: "Swap"
+        swapTokens()
+        break;
+    }
+  }
+
   const triggerInfo = async() => {
     setContent({
       title:  ALERT.INFO_TITLE,
@@ -226,7 +238,7 @@ function Cura(props){
   }
 
   useEffect(() => {
-    setOperation(initialiseWeb3)
+    setOperation(() => initialiseWeb3)
     setStyle("DAI", true)
   }, [])
 

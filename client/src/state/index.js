@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 
-const initialState = {  }
+const initialState = { web3: false, network: false }
 const store = createContext(initialState)
 const { Provider } = store
 
