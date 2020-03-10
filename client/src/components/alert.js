@@ -12,28 +12,23 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-class Alert extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
+function Alert(props){
     return (
       <Dialog
-         open={this.props.trigger}
+         open={props.trigger}
          TransitionComponent={Transition}
          keepMounted
-         onClose={this.props.openModal}
+         onClose={props.openModal}
        >
-         <DialogTitle>{this.props.bodyTitle}</DialogTitle>
+         <DialogTitle>{props.bodyTitle}</DialogTitle>
          <DialogContent>
            <DialogContentText>
-              {this.props.bodyText}
+              {props.bodyText}
            </DialogContentText>
          </DialogContent>
          <DialogActions>
-           {this.props.buttonState && (
-             <Button onClick={this.props.closeModal}
+           {props.buttonState && (
+             <Button onClick={props.closeModal}
               style={{
               backgroundColor: "grey",
               color: "white"
@@ -43,8 +38,7 @@ class Alert extends Component {
           )}
          </DialogActions>
        </Dialog>
-    );
-  }
+  )
 }
 
 export default Alert;

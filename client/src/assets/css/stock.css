@@ -1,5 +1,91 @@
+@font-face {
+  font-family: "San Francisco";
+  src: url("../fonts/SF-Ultralight.otf");
+}
+
+@font-face {
+  font-family: "San Francisco Title";
+  src: url("../fonts/SF-Regular.otf");
+}
+
+@font-face {
+  font-family: "San Francisco Bold";
+  src: url("../fonts/SF-Bold.otf");
+}
+
+@keyframes hue {
+  0% {
+    background-position: 0% 0%;
+  } 10% {
+    background-position: 50% 5%;
+  } 20% {
+    background-position: 75% 25%;
+  } 30% {
+    background-position: 50% 62.5%;
+  } 40% {
+    background-position: 80% 90%;
+  } 50% {
+    background-position: 100% 100%;
+  } 60% {
+    background-position: 80% 90%;
+  } 70% {
+    background-position: 60% 25%;
+  } 80% {
+    background-position: 40% 50%;
+  } 90% {
+    background-position: 20% 5%;
+  } 100% {
+    background-position: 0% 0%;
+  }
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "San Francisco";
+  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(63, 83, 93,1) 0%, rgba(13, 28, 34,1) 100.2% );
+  color: white;
+}
+
+path {
+  fill: url(#gradient);
+}
+
+a {
+  font-family: "San Francisco Bold";
+  background: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a157539e0893a6f_41.%20Tonys%20Pink.jpg");
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.landing-graphic {
+  padding-top: auto;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+  width: 100vw;
+  top: 100%;
+}
+
+.landing-logo {
+  width: 12.5em;
+  margin: 2.5em 1em;
+  padding: 1em;
+}
+
+.landing-excerpt {
+  font-size: 2em;
+}
+
+.landing-graphic > svg {
+  display: flex;
+}
+
+.landing-title {
+  font-family: "San Francisco Title";
+  background: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a157506f8893ae1_99.%20Roman.jpg");
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+	animation: hue 25s infinite;
+  font-size: 7.5em;
 }
 
 .logo-CuraDAI, .logo-DAI {

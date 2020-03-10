@@ -8,23 +8,17 @@ import style from '../assets/css/wallet';
 
 const WalletBase = styled(Paper)(style);
 
-class Wallet extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <WalletBase>
-        <AccountBalanceWalletIcon className="icon"/>
-        <span className="balances">
-          <NumberFormat value={this.props.dai} displayType={'text'} thousandSeparator={true} /> DAI
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <NumberFormat value={this.props.cura} displayType={'text'} thousandSeparator={true} /> CuraDAI
-        </span>
-      </WalletBase>
-    );
-  }
+function Wallet(props){
+  return (
+    <WalletBase>
+      <AccountBalanceWalletIcon className="icon"/>
+      <span className="balances">
+        <NumberFormat value={props.dai} displayType={'text'} thousandSeparator={true} /> DAI
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <NumberFormat value={props.cura} displayType={'text'} thousandSeparator={true} /> CuraDAI
+       </span>
+    </WalletBase>
+  )
 }
 
 export default Wallet;

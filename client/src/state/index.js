@@ -9,6 +9,8 @@ const StateProvider = ( { children } ) => {
     switch(action.type) {
       case 'WEB3':
         return { ...state, ...action.payload }
+      case 'EXCHANGE':
+      return { ...state, ...action.payload }
       default:
         return state
     };

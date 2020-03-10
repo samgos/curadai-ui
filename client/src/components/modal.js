@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { styled } from '@material-ui/core/styles';
 import HelpIcon from '@material-ui/icons/Help';
@@ -13,58 +13,54 @@ import Input from './input';
 
 const ModalBase = styled(Paper)(style);
 
-class Modal extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <ModalBase>
-        <Grid container direction='column' alignItems='center' spacing={6}>
-          <Grid item container direction="row" justify="space-between">
-            <Grid item>
-              <Wallet cura={this.props.cura} dai={this.props.dai}/>
-            </Grid>
-            <Grid item>
-              <HelpIcon onClick={this.props.infoTrigger} className="help" />
-            </Grid>
-          </Grid>
-          <Grid item container direction='row' justify='center' spacing={3}>
-            <Grid item>
-              <div className="DAI">
-                <img src={normDAI} className="logo-DAI" />
-              </div>
-            </Grid>
-            <Grid item>
-              <Input market={this.props.market} rate={this.props.rate}
-                marketChange={this.props.marketChange}
-                stateChange={this.props.stateChange}
-                currency='DAI' label='Amount'
-              />
-            </Grid>
-          </Grid>
-          <Grid item container direction='row' justify='center' spacing={3}>
-            <Grid item>
-              <div className="CuraDAI">
-                <img src={curaDAI} className="logo-CuraDAI" />
-              </div>
-            </Grid>
-            <Grid item>
-              <Input market={this.props.market} rate={this.props.rate}
-                marketChange={this.props.marketChange}
-                stateChange={this.props.stateChange}
-                currency='CuraDAI' label='Amount'
-              />
-            </Grid>
+function Modal(props){
+  return (
+    <ModalBase>
+      <Grid container direction='column' alignItems='center' spacing={6}>
+        <Grid item container direction="row" justify="space-between">
+          <Grid item>
+            <Wallet cura={props.cura} dai={props.dai}/>
           </Grid>
           <Grid item>
-            <Trigger onClick={this.props.operation} label={this.props.phase}/>
+            <HelpIcon onClick={props.infoTrigger} className="help" />
           </Grid>
         </Grid>
-      </ModalBase>
-    );
-  }
+        <Grid item container direction='row' justify='center' spacing={3}>
+          <Grid item>
+            <div className="DAI">
+              <img src={normDAI} className="logo-DAI" />
+            </div>
+          </Grid>
+          <Grid item>
+            <Input market={props.market} rate={props.rate}
+              marketChange={props.marketChange}
+              stateChange={props.stateChange}
+              currency='DAI' label='Amount'
+              targetRef={props.daiRef}
+              />
+          </Grid>
+        </Grid>
+        <Grid item container direction='row' justify='center' spacing={3}>
+          <Grid item>
+            <div className="CuraDAI">
+              <img src={curaDAI} className="logo-CuraDAI" />
+            </div>
+          </Grid>
+          <Grid item>
+            <Input market={props.market} rate={props.rate}
+              marketChange={props.marketChange}
+              stateChange={props.stateChange}
+              currency='CuraDAI' label='Amount'
+              targetRef={props.curaRef}
+            />
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Trigger onClick={props.operation} label={props.phase}/>
+        </Grid>
+      </Grid>
+    </ModalBase>
+  )
 }
 
 export default Modal;
