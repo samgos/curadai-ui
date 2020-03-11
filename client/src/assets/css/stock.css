@@ -4,7 +4,7 @@
 }
 
 @font-face {
-  font-family: "San Francisco Title";
+  font-family: "San Francisco Reg";
   src: url("../fonts/SF-Regular.otf");
 }
 
@@ -15,34 +15,22 @@
 
 @keyframes hue {
   0% {
-    background-position: 0% 0%;
-  } 10% {
-    background-position: 50% 5%;
-  } 20% {
-    background-position: 75% 25%;
-  } 30% {
-    background-position: 50% 62.5%;
-  } 40% {
-    background-position: 80% 90%;
+    background-position: 27.5% 30%;
   } 50% {
-    background-position: 100% 100%;
-  } 60% {
-    background-position: 80% 90%;
-  } 70% {
-    background-position: 60% 25%;
-  } 80% {
-    background-position: 40% 50%;
-  } 90% {
-    background-position: 20% 5%;
+    background-position: 47.5% 32.5%;
   } 100% {
-    background-position: 0% 0%;
+    background-position: 27.5% 30%;
   }
 }
 
-body {
+ html {
+  height: 100%;
   font-family: "San Francisco";
-  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(63, 83, 93,1) 0%, rgba(13, 28, 34,1) 100.2% );
+  background: radial-gradient( circle farthest-corner at 15% 25%,  rgba(27, 27, 27, 1) 0%, rgba(0, 0, 0, 1) 100.2% ) fixed;
+  background-size: cover;
+  margin: 0 auto;
   color: white;
+  padding: 0;
 }
 
 path {
@@ -56,13 +44,12 @@ a {
   -webkit-text-fill-color: transparent;
 }
 
+
 .landing-graphic {
-  padding-top: auto;
   position: relative;
   text-align: center;
   overflow: hidden;
   width: 100vw;
-  top: 100%;
 }
 
 .landing-logo {
@@ -80,13 +67,36 @@ a {
 }
 
 .landing-title {
-  font-family: "San Francisco Title";
+  font-family: "San Francisco Reg";
   background: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a157506f8893ae1_99.%20Roman.jpg");
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-	animation: hue 25s infinite;
+	animation: hue 17.5s infinite;
   font-size: 7.5em;
 }
+
+.currency-card {
+  text-align: center;
+  padding: 5em 2.5em;
+}
+
+.currency-logo {
+  width: 5em;
+}
+
+.currency-card p {
+  margin: .25em 0em;
+}
+
+.currency-card p:first-of-type {
+  font-size: 1.75em;
+}
+
+.currency-card p:last-of-type {
+  font-family: "San Francisco Reg";
+  font-size: 2.5em;
+}
+
 
 .logo-CuraDAI, .logo-DAI {
   display: block;
