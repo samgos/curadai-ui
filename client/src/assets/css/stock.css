@@ -44,6 +44,9 @@ a {
   -webkit-text-fill-color: transparent;
 }
 
+.las {
+  font-size: 5rem;
+}
 
 .landing-graphic {
   position: relative;
@@ -75,9 +78,18 @@ a {
   font-size: 7.5em;
 }
 
-.currency-card {
+.currency-card, .trait-card {
   text-align: center;
   padding: 5em 2.5em;
+}
+
+.trait-card {
+  width: 17.5em;
+}
+
+.benefits {
+  font-size: 2em;
+  padding-right: 5em;
 }
 
 .currency-logo {
@@ -88,7 +100,8 @@ a {
   margin: .25em 0em;
 }
 
-.currency-card p:first-of-type {
+.currency-card p:first-of-type,
+.trait-card p:first-of-type {
   font-size: 1.75em;
 }
 

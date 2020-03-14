@@ -1,12 +1,14 @@
 import React from 'react'
 
 import Grid from '@material-ui/core/Grid'
-import stock from './assets/css/stock'
-import users from './assets/img/users.png'
+import Exchange from './exchange'
+
+import palm from './assets/img/palm.png'
 import cura from './assets/img/cura.png'
 import dai from './assets/img/dai.png'
+
+import stock from './assets/css/stock'
 import './assets/css/stock.css'
-import Exchange from './exchange'
 
 function Cura(){
   return(
@@ -55,13 +57,50 @@ function Cura(){
           </Grid>
           <Grid item>
           <div className="currency-card">
-            <img className="currency-logo" src={users} />
+            <i className="las la-users" />
             <p> Active users </p>
             <p> 1,000 <a>Users</a></p>
           </div>
           </Grid>
+        </Grid>
+        <Grid item>
+          <Exchange />
+        </Grid>
+      </Grid>
+      <Grid container direction="column" justify="center" alignItems="baseline" style={stock}>
+        <Grid item container direction="row" justify="space-evenly" alignItems="center" spacing={3}>
           <Grid item>
-            <Exchange />
+            <div className="trait-card">
+              <i className="las la-balance-scale" />
+              <p>Transperant</p>
+              <p>With thanks to the underlying technology, individuals can monitor the monetary supply and it's economics.</p>
+            </div>
+          </Grid>
+          <Grid item>
+            <div className="trait-card">
+              <i className="las la-shipping-fast" />
+              <p>Instant</p>
+              <p>Enjoy not waiting 3-4 days for bank transfers to process, enjoy the finality of digital currencies instead.</p>
+            </div>
+          </Grid>
+          <Grid>
+            <div className="trait-card">
+              <i className="las la-store-alt" />
+              <p>Accessible</p>
+              <p>Choose from over 50's merchants on the island alone to spend your money or take it to the world wild web.</p>
+            </div>
+          </Grid>
+        </Grid>
+        <Grid item container direction="row" justify="space-around" alignItems="center">
+          <Grid item>
+            <div className="palm-vector">
+              <img src={palm} />
+            </div>
+          </Grid>
+          <Grid item>
+            <div className="benefits">
+              <h3> Sit back and enjoy the island life! </h3>
+            </div>
           </Grid>
         </Grid>
       </Grid>
