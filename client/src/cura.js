@@ -19,7 +19,10 @@ function Cura(){
             <img className="landing-logo" src={cura} />
           </Grid>
           <Grid item>
-            <h1 className="landing-title"> CuraDAI</h1>
+            <div className="landing-title">
+              <span className="title-1">Cura</span>
+              <span className="title-2">DAI</span>
+            </div>
           </Grid>
         </Grid>
         <Grid item>

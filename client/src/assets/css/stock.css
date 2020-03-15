@@ -15,19 +15,19 @@
 
 @keyframes hue {
   0% {
-    background-position: 27.5% 30%;
+    background-position: 12.5% 50%;
   } 50% {
-    background-position: 47.5% 32.5%;
+    background-position: 50% 50%;
   } 100% {
-    background-position: 27.5% 30%;
+    background-position: 12.5% 100%;
   }
 }
 
  html {
   height: 100%;
   font-family: "San Francisco";
-  background: radial-gradient( circle farthest-corner at 15% 25%,  rgba(27, 27, 27, 1) 0%, rgba(0, 0, 0, 1) 100.2% ) fixed;
-  background-size: cover;
+  background: radial-gradient( circle farthest-corner at 15% 25%,  rgba(27, 27, 27, .9375) 0%, rgba(0, 0, 0, .9375) 100.2% ) fixed;
+  background-size: contain;
   margin: 0 auto;
   color: white;
   padding: 0;
@@ -39,12 +39,17 @@ path {
 
 a {
   font-family: "San Francisco Bold";
-  background: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a157539e0893a6f_41.%20Tonys%20Pink.jpg");
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #faad66;
 }
 
 .las {
+  background: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a15751771893a4b_23.%20California.jpg");
+  background-size: cover;
+  background-blend-mode: color;
+  background-repeat: round;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent;
+  color: #faad66;
   font-size: 5rem;
 }
 
@@ -71,11 +76,21 @@ a {
 
 .landing-title {
   font-family: "San Francisco Reg";
-  background: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a157506f8893ae1_99.%20Roman.jpg");
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-	animation: hue 17.5s infinite;
   font-size: 7.5em;
+  color: white;
+  display: table;
+  padding-top: 82.5px;
+  color: white;
+}
+
+.title-1, .title-2 {
+  background: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a157539e0893a6f_41.%20Tonys%20Pink.jpg");
+  background-size: cover;
+  background-blend-mode: color;
+  background-repeat: round;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent;
+  display: table-cell;
 }
 
 .currency-card, .trait-card {
@@ -96,7 +111,7 @@ a {
   width: 5em;
 }
 
-.currency-card p {
+.currency-card p, .trait-card p {
   margin: .25em 0em;
 }
 
@@ -151,5 +166,5 @@ label {
 }
 
 input, .MuiInputBase-root, span {
-  color: white !important;
+  color: white;
 }
