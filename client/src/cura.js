@@ -1,9 +1,9 @@
 import React from 'react'
 
+import { ReactSVG } from 'react-svg'
 import Grid from '@material-ui/core/Grid'
 import Exchange from './exchange'
 
-import palm from './assets/img/palm.png'
 import cura from './assets/img/cura.png'
 import dai from './assets/img/dai.png'
 
@@ -97,7 +97,7 @@ function Cura(){
         <Grid item container direction="row" justify="space-around" alignItems="center">
           <Grid item>
             <div className="palm-vector">
-              <img src={palm} />
+              <ReactSVG src="palm.svg" />
             </div>
           </Grid>
           <Grid item>

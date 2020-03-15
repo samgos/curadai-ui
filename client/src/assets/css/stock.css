@@ -42,6 +42,15 @@ a {
   color: #faad66;
 }
 
+.palm-vector svg {
+  width: 500px !important;
+  height: 500px !important;
+}
+
+.palm-vector svg path  {
+  fill: none !important;
+}
+
 .las {
   background: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a15751771893a4b_23.%20California.jpg");
   background-size: cover;
