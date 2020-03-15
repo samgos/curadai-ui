@@ -19,10 +19,7 @@ function Cura(){
             <img className="landing-logo" src={cura} />
           </Grid>
           <Grid item>
-            <div className="landing-title">
-              <span className="title-1">Cura</span>
-              <span className="title-2">DAI</span>
-            </div>
+            <h1 className="landing-title"> CuraDAI </h1>
           </Grid>
         </Grid>
         <Grid item>
@@ -104,6 +101,22 @@ function Cura(){
             <div className="benefits">
               <h3> Sit back and enjoy the island life! </h3>
             </div>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid container direction="column" justify="flex-start" alignItems="baseline" style={stock}>
+        <Grid item>
+          <h1 className="page-title"> Why CuraDAI? </h1>
+        </Grid>
+        <Grid item container direction="row" justify="space-between" alignItems="center">
+          <Grid item>
+              3
+          </Grid>
+          <Grid item>
+              2
+          </Grid>
+          <Grid item>
+            1
           </Grid>
         </Grid>
       </Grid>

@@ -1,12 +1,23 @@
+import gradient from '../img/california-inverse.jpg'
+
 const modal = ({
-  background: 'url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a15751771893a4b_23.%20California.jpg")',
-  backgroundPosition: '37.5% 75%',
+  background: `url("${gradient}")`,
+  backgroundSize: '100% 75%',
+  backgroundPosition: '75% 0%',
+  backgroundRepeat: 'round',
   width: '45rem',
   paddingTop: '1rem',
   paddingBottom: '2rem',
   paddingRight: '2rem',
   paddingLeft: '2rem',
-  color: 'white'
+  backgroundFilter: 'FlipV',
+  color: 'white',
+  '&::before': {
+    content: '',
+    margin: 0,
+    transform: 'scaleY(-1)',
+    display: 'inline-block'
+  },
 });
 
 export default modal;

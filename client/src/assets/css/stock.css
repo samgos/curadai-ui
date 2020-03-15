@@ -15,11 +15,9 @@
 
 @keyframes hue {
   0% {
-    background-position: 12.5% 50%;
-  } 50% {
-    background-position: 50% 50%;
+    background-position: 0% 0%;
   } 100% {
-    background-position: 12.5% 100%;
+    background-position: 100% 0%;
   }
 }
 
@@ -42,6 +40,17 @@ a {
   color: #faad66;
 }
 
+.page-title {
+  padding: 1em 2em;
+  font-size: 3em;
+}
+
+.page-body {
+  padding: 2.25em;
+  width: 500px;
+  font-size: 1.5em;
+}
+
 .palm-vector svg {
   width: 500px !important;
   height: 500px !important;
@@ -52,7 +61,7 @@ a {
 }
 
 .las {
-  background: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a15751771893a4b_23.%20California.jpg");
+  background: url("../img/california.jpg");
   background-size: cover;
   background-blend-mode: color;
   background-repeat: round;
@@ -60,6 +69,10 @@ a {
   -webkit-text-fill-color: transparent;
   color: #faad66;
   font-size: 5rem;
+}
+
+.las-xl {
+  font-size: 15rem;
 }
 
 .landing-graphic {
@@ -87,20 +100,12 @@ a {
   font-family: "San Francisco Reg";
   font-size: 7.5em;
   color: white;
-  display: table;
-  padding-top: 82.5px;
-  color: white;
-}
-
-.title-1, .title-2 {
-  background: url("https://assets.website-files.com/5bfd1275cc56e15ce750b18e/5c289afb9a157539e0893a6f_41.%20Tonys%20Pink.jpg");
-  background-size: cover;
-  background-blend-mode: color;
-  background-repeat: round;
+  background: linear-gradient(to right, #faad66 20%, rgb(255, 197, 143) 40%, rgb(255, 197, 143) 60%, rgb(255, 124, 124) 80%) 0% 0% / 200%;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent;
-  display: table-cell;
+  animation: hue 2s infinite alternate;
 }
+
 
 .currency-card, .trait-card {
   text-align: center;
