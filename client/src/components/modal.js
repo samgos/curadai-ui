@@ -16,14 +16,9 @@ const ModalBase = styled(Paper)(style);
 function Modal(props){
   return (
     <ModalBase>
-      <Grid container direction='column' alignItems='center' spacing={6}>
-        <Grid item container direction="row" justify="space-between">
-          <Grid item>
-            <Wallet cura={props.cura} dai={props.dai}/>
-          </Grid>
-          <Grid item>
-            <HelpIcon onClick={props.infoTrigger} className="help" />
-          </Grid>
+      <Grid container direction='column' justify="basline" alignItems='flex-start' spacing={6}>
+        <Grid item>
+          <Wallet cura={props.cura} dai={props.dai}/>
         </Grid>
         <Grid item container direction='row' justify='center' spacing={3}>
           <Grid item>
@@ -56,7 +51,9 @@ function Modal(props){
           </Grid>
         </Grid>
         <Grid item>
-          <Trigger onClick={props.operation} label={props.phase}/>
+          <div className="exchange-button">
+            <Trigger onClick={props.operation} label={props.phase}/>
+          </div>
         </Grid>
       </Grid>
     </ModalBase>

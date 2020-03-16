@@ -232,32 +232,30 @@ function Exchange(props){
 
   return (
      <Fragment>
-        <Grid item>
-          <Modal
-            infoTrigger={triggerInfo}
-            operation={buttonOperation}
-            marketChange={marketChange}
-            stateChange={onChange}
-            market={exchangeMarket}
-            balances={getBalances}
-            phase={exchangePhase}
-            rate={exchangeRate}
-            cura={exchangeBalance.cura}
-            dai={exchangeBalance.dai}
-            curaRef={curaRef}
-            daiRef={daiRef}
-          />
-        </Grid>
-      <Alert
-        trigger={modalAlert}
-        bodyTitle={modalContent.title}
-        bodyText={modalContent.body}
-        buttonState={modalContent.button}
-        openModal={openModal}
-        closeModal={closeModal}
+        <Modal
+          infoTrigger={triggerInfo}
+          operation={buttonOperation}
+          marketChange={marketChange}
+          stateChange={onChange}
+          market={exchangeMarket}
+          balances={getBalances}
+          phase={exchangePhase}
+          rate={exchangeRate}
+          cura={exchangeBalance.cura}
+          dai={exchangeBalance.dai}
+          curaRef={curaRef}
+          daiRef={daiRef}
         />
-    </Fragment >
-  );
+        <Alert
+          trigger={modalAlert}
+          bodyTitle={modalContent.title}
+          bodyText={modalContent.body}
+          buttonState={modalContent.button}
+          openModal={openModal}
+          closeModal={closeModal}
+        />
+     </Fragment >
+   )
 }
 
 export default Exchange;

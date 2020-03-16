@@ -25,17 +25,17 @@ const Trigger = styled(Button)(trigger);
 function Cura(){
   return(
     <main>
-      <Grid container direction="column" justify="center" alignItems="center" style={stock}>
+      <Grid container direction="column" justify="flex-end" alignItems="baseline" style={stock}>
         <Grid item container direction="row" justify="center" alignItems="flex-start">
           <Grid item>
             <img className="landing-logo" src={cura} />
           </Grid>
           <Grid item>
-            <h1 className="landing-title"> CuraDAI </h1>
+            <div className="landing-content">
+              <span className="landing-title"> CuraDAI </span>
+              <p className="landing-excerpt">A seamless digital currency for the island of <a>Curaçao</a>.</p>
+            </div>
           </Grid>
-        </Grid>
-        <Grid item>
-          <h3 className="landing-excerpt">A seamless digital currency for the island of <a>Curaçao</a>.</h3>
         </Grid>
         <Grid item>
           <div className="landing-graphic">
@@ -61,7 +61,7 @@ function Cura(){
         </Grid>
       </Grid>
       <Grid container direction="column" justify="flex-start" alignItems="center" style={stock}>
-        <Grid item container direction="row" justify="space-evenly" alignItems="center" spacing={3}>
+        <Grid item container direction="row" justify="space-evenly" alignItems="center">
           <Grid item>
             <div className="currency-card">
               <img className="currency-logo" src={dai} />
@@ -89,7 +89,7 @@ function Cura(){
         </Grid>
       </Grid>
       <Grid container direction="column" justify="center" alignItems="baseline" style={stock}>
-        <Grid item container direction="row" justify="space-evenly" alignItems="center" spacing={3}>
+        <Grid item container direction="row" justify="space-evenly" alignItems="center">
           <Grid item>
             <div className="trait-card">
               <i className="las la-balance-scale" />

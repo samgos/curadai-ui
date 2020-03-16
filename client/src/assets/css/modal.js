@@ -2,11 +2,10 @@ import gradient from '../img/california-inverse.jpg'
 
 const modal = ({
   background: `url("${gradient}")`,
-  width: '45rem',
-  paddingTop: '1rem',
-  paddingBottom: '2rem',
-  paddingRight: '2rem',
-  paddingLeft: '2rem',
+  paddingTop: '1em',
+  paddingBottom: '2em',
+  paddingRight: '2em',
+  paddingLeft: '2em',
   color: 'white'
 });
 
