@@ -1,14 +1,26 @@
 import React from 'react'
-
 import { ReactSVG } from 'react-svg'
+
+import { styled } from '@material-ui/core/styles'
+
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Exchange from './exchange'
 
 import cura from './assets/img/cura.png'
 import dai from './assets/img/dai.png'
+import banner from './assets/css/banner'
+import input from './assets/css/input'
+import trigger from './assets/css/trigger'
 
 import stock from './assets/css/stock'
 import './assets/css/stock.css'
+
+const ModalBase = styled(Paper)(banner);
+const TextInput = styled(TextField)(input);
+const Trigger = styled(Button)(trigger);
 
 function Cura(){
   return(
@@ -104,20 +116,24 @@ function Cura(){
           </Grid>
         </Grid>
       </Grid>
-      <Grid container direction="column" justify="flex-start" alignItems="baseline" style={stock}>
+      <Grid container direction="column" justify="center" alignItems="stretch" style={{ minHeight: '75vh' }}>
         <Grid item>
-          <h1 className="page-title"> Why CuraDAI? </h1>
-        </Grid>
-        <Grid item container direction="row" justify="space-between" alignItems="center">
-          <Grid item>
-              3
-          </Grid>
-          <Grid item>
-              2
-          </Grid>
-          <Grid item>
-            1
-          </Grid>
+          <ModalBase>
+            <div className="banner-content">
+              <Grid item container direction="row" justify="space-between" alignItems="flex-start">
+                <Grid item>
+                  <h1 className="banner-title"> Want to become a CuraDAI merchant? </h1>
+                  <p> Leave your email to find more about accepting CuraDAI in your business.</p>
+                </Grid>
+                <Grid item>
+                  <div className="form-content">
+                    <TextInput className="form-input" variant="outlined" label="Email" />
+                    <Trigger className="form-button"> Submit </Trigger>
+                  </div>
+                </Grid>
+              </Grid>
+            </div>
+          </ModalBase>
         </Grid>
       </Grid>
     </main>

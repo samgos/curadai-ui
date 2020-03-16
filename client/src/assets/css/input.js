@@ -19,10 +19,13 @@ const input = ({
   },
   '& input:valid:focus + fieldset': {
     borderWidth: 3,
-    borderColor: '#8da1ff',
+    borderColor: '#0099ff"',
     paddingRight: '5px !important',
     paddingLeft: '8px !important',
   },
+  '& input:active + fieldset': {
+      borderColor: 'white'
+    }
 });
 
 export default input;

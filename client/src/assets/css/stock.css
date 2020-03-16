@@ -26,9 +26,10 @@
   font-family: "San Francisco";
   background: radial-gradient( circle farthest-corner at 15% 25%,  rgba(27, 27, 27, .9375) 0%, rgba(0, 0, 0, .9375) 100.2% ) fixed;
   background-size: contain;
-  margin: 0 auto;
   color: white;
   padding: 0;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 path {
@@ -40,9 +41,38 @@ a {
   color: #faad66;
 }
 
-.page-title {
-  padding: 1em 2em;
-  font-size: 3em;
+.banner-title {
+  font-size: 1.875em;
+}
+
+.banner-content {
+  padding: 1em 2em 1em 2em;
+  font-size: 1.5em;
+  width: 100%;
+}
+
+.form-content {
+    padding: 2.5em 5em;
+}
+
+.form-input {
+  background: rgba(256, 256, 256, 0.25) !important;
+  color: white !important;
+}
+
+.form-button {
+  font-size: .75em !important;
+  margin-left: -6em !important;
+  margin-right: 2.5em !important;
+  margin-top: .4375em !important;
+}
+
+.form-input {
+  margin-left: -2.5em !important;
+}
+
+.banner-content input, button {
+  float: right;
 }
 
 .page-body {
@@ -100,12 +130,7 @@ a {
   font-family: "San Francisco Reg";
   font-size: 7.5em;
   color: white;
-  background: linear-gradient(to right, #faad66 20%, rgb(255, 197, 143) 40%, rgb(255, 197, 143) 60%, rgb(255, 124, 124) 80%) 0% 0% / 200%;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent;
-  animation: hue 2s infinite alternate;
 }
-
 
 .currency-card, .trait-card {
   text-align: center;
@@ -180,5 +205,5 @@ label {
 }
 
 input, .MuiInputBase-root, span {
-  color: white;
+  color: white !important;
 }

@@ -1,5 +1,5 @@
 const trigger = ({
-  background: '#6680ff',
+  background: '#0099ff',
   borderWidth: 2.5,
   color: 'white',
   fontSize: '1.125em',
