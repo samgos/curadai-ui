@@ -19,7 +19,7 @@ const input = ({
   },
   '& input:valid:focus + fieldset': {
     borderWidth: 3,
-    borderColor: '#0099ff"',
+    borderColor: '#0099ff !important',
     paddingRight: '5px !important',
     paddingLeft: '8px !important',
   },

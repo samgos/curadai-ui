@@ -13,11 +13,21 @@
   src: url("../fonts/SF-Bold.otf");
 }
 
-@keyframes hue {
-  0% {
-    background-position: 0% 0%;
-  } 100% {
-    background-position: 100% 0%;
+@keyframes wave {
+  0%, 100% {
+    margin-left: 0;
+  }
+  50% {
+    margin-left: -1600px;
+  }
+}
+
+@keyframes swell {
+  0%, 100% {
+    transform: translate3d(0,-5px,0);
+  }
+  50% {
+    transform: translate3d(0,25px,0);
   }
 }
 
@@ -32,13 +42,22 @@
   overflow-x: hidden;
 }
 
-path {
+svg:first-of-type path{
   fill: url(#gradient);
 }
+
+svg:last-of-type path {
+  fill: url(#gradientAlt);
+}
+
 
 a {
   font-family: "San Francisco Bold";
   color: #faad66;
+}
+
+.MuiGrid-root {
+  overflow: hidden;
 }
 
 .banner-title {
@@ -58,6 +77,11 @@ a {
 .form-input {
   background: rgba(256, 256, 256, 0.25) !important;
   color: white !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused
+.MuiOutlinedInput-notchedOutline {
+  border-color: white !important;
 }
 
 .form-button {
@@ -109,6 +133,7 @@ a {
   position: relative;
   text-align: center;
   overflow: hidden;
+  height: 350px;
   width: 100vw;
 }
 
@@ -122,9 +147,28 @@ a {
   font-size: 2em;
 }
 
+.landing-graphic {
+  overflow: hidden !important;
+}
+
 .landing-graphic > svg {
+  overflow: hidden;
   display: flex;
 }
+
+.landing-graphic svg:first-of-type {
+  position: absolute;
+  top: 37.5px;
+  z-index: 0;
+}
+
+.landing-graphic svg:nth-of-type(2) {
+  z-index: 1;
+  transform: translate3d(0, 0, 0);
+  animation: wave 10s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 10s ease -2.5s infinite;
+  opacity: 0.875;
+}
+
 
 .landing-title {
   font-family: "San Francisco Reg";
