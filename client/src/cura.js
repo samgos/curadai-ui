@@ -9,13 +9,17 @@ import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Exchange from './exchange'
 
+import metamask from './assets/img/metamask.png'
+import daostack from './assets/img/daostack.png'
+import trust from './assets/img/trust.png'
 import cura from './assets/img/cura.png'
 import dai from './assets/img/dai.png'
+
+import primary from './assets/css/primary'
+import trigger from './assets/css/trigger'
 import banner from './assets/css/banner'
 import input from './assets/css/input'
-import trigger from './assets/css/trigger'
 import alt from './assets/css/alt'
-import primary from './assets/css/primary'
 
 import stock from './assets/css/stock'
 import './assets/css/stock.css'
@@ -133,7 +137,7 @@ function Cura(){
             <div className="benefits">
               <h3> Sit back and enjoy the island life! </h3>
               <ButtonPrimary variant="outlined"> Learn more </ButtonPrimary>
-              <ButtonAlt variant="outlined"> Earn CuraDAI </ButtonAlt>
+              <ButtonAlt variant="outlined" className="earn-button"> Earn CuraDAI </ButtonAlt>
             </div>
           </Grid>
         </Grid>
@@ -156,6 +160,31 @@ function Cura(){
               </Grid>
             </div>
           </ModalBase>
+        </Grid>
+      </Grid>
+      <Grid container direction="column" justify="baseline" alignItems="center" style={{ minHeight: '75vh' }}>
+        <Grid item>
+          <h1 className="page-title"> Wallets </h1>
+        </Grid>
+        <Grid item container direction="row" justify="space-around" alignItems="space-evenly">
+        <Grid item>
+          <a className="integration-card" href="https://metamask.io" target="_blank">
+            <img className="integration-logo" src={metamask} />
+            <p> Metamask </p>
+          </a>
+        </Grid>
+        <Grid item>
+        <a className="integration-card" href="https://trustwallet.com" target="_blank">
+          <img className="integration-logo" src={trust} />
+          <p> Trust </p>
+        </a>
+        </Grid>
+        <Grid item>
+        <a className="integration-card" href="https://daostack.io" target="_blank">
+          <img className="integration-logo-alt" src={daostack} />
+          <p> DAOstack </p>
+        </a>
+        </Grid>
         </Grid>
       </Grid>
     </main>
