@@ -218,7 +218,7 @@ a {
 }
 
 .currency-logo {
-  width: 4.5em;
+  width: 4.375em;
 }
 
 .currency-card p, .trait-card p {
@@ -328,7 +328,7 @@ input, .MuiInputBase-root, span {
   }
 
   .banner-content {
-    padding: 0;
+    padding: .1em;
     width: 80%;
   }
 
