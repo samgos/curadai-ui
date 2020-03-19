@@ -14,6 +14,8 @@ import dai from './assets/img/dai.png'
 import banner from './assets/css/banner'
 import input from './assets/css/input'
 import trigger from './assets/css/trigger'
+import alt from './assets/css/alt'
+import primary from './assets/css/primary'
 
 import stock from './assets/css/stock'
 import './assets/css/stock.css'
@@ -21,11 +23,20 @@ import './assets/css/stock.css'
 const ModalBase = styled(Paper)(banner);
 const TextInput = styled(TextField)(input);
 const Trigger = styled(Button)(trigger);
+const ButtonAlt = styled(Button)(alt);
+const ButtonPrimary = styled(Button)(primary);
 
 function Cura(){
   return(
     <main>
       <Grid container direction="column" justify="flex-end" alignItems="baseline" style={stock}>
+        <nav>
+          <ul>
+            <li><a href="#exchange"> Get CURA </a> </li>
+            <li><a href="https://curadao.io" target="_blank">CuraDAO</a> </li>
+            <li><a href="#contact"> Contact </a> </li>
+          </ul>
+        </nav>
         <Grid item container direction="row" justify="center" alignItems="flex-start">
           <Grid item>
             <img className="landing-logo" src={cura} />
@@ -33,7 +44,7 @@ function Cura(){
           <Grid item>
             <div className="landing-content">
               <span className="landing-title"> CuraDAI </span>
-              <p className="landing-excerpt">A seamless digital currency for the island of <a>Curaçao</a>.</p>
+              <p className="landing-excerpt">A seamless digital currency for the island of <a>Curaçao</a></p>
             </div>
           </Grid>
         </Grid>
@@ -60,7 +71,7 @@ function Cura(){
           </div>
         </Grid>
       </Grid>
-      <Grid container direction="column" justify="flex-start" alignItems="center" style={stock}>
+      <Grid container direction="column" justify="flex-start" alignItems="center" style={stock} id="exchange">
         <Grid item container direction="row" justify="space-evenly" alignItems="center">
           <Grid item>
             <div className="currency-card">
@@ -94,21 +105,21 @@ function Cura(){
             <div className="trait-card">
               <i className="las la-balance-scale" />
               <p>Transperant</p>
-              <p>With thanks to the underlying technology, individuals can monitor the monetary supply and it's economics.</p>
+              <p>With thanks to the underlying technology, individuals can monitor the monetary supply and it's economics</p>
             </div>
           </Grid>
           <Grid item>
             <div className="trait-card">
               <i className="las la-shipping-fast" />
               <p>Instant</p>
-              <p>Enjoy not waiting 3-4 days for bank transfers to process, enjoy the finality of digital currencies instead.</p>
+              <p>Enjoy not waiting 3-4 days for bank transfers to process, enjoy the finality of digital currencies instead</p>
             </div>
           </Grid>
           <Grid>
             <div className="trait-card">
               <i className="las la-store-alt" />
               <p>Accessible</p>
-              <p>Choose from over 50's merchants on the island alone to spend your money or take it to the world wild web.</p>
+              <p>Choose from over 50's merchants on the island alone to spend your money or take it to the world wild web</p>
             </div>
           </Grid>
         </Grid>
@@ -121,18 +132,20 @@ function Cura(){
           <Grid item>
             <div className="benefits">
               <h3> Sit back and enjoy the island life! </h3>
+              <ButtonPrimary variant="outlined"> Learn more </ButtonPrimary>
+              <ButtonAlt variant="outlined"> Earn CuraDAI </ButtonAlt>
             </div>
           </Grid>
         </Grid>
       </Grid>
-      <Grid container direction="column" justify="center" alignItems="stretch" style={{ minHeight: '75vh' }}>
+      <Grid container direction="column" justify="center" alignItems="stretch" style={{ minHeight: '75vh' }} id="contact">
         <Grid item>
           <ModalBase>
             <div className="banner-content">
               <Grid item container direction="row" justify="space-between" alignItems="flex-start">
                 <Grid item>
                   <h1 className="banner-title"> Want to become a CuraDAI merchant? </h1>
-                  <p> Leave your email to find more about accepting CuraDAI in your business.</p>
+                  <p> Leave your email to find more about accepting CuraDAI in your business</p>
                 </Grid>
                 <Grid item>
                   <div className="form-content">
