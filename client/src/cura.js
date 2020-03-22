@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
+import Footer from './components/footer'
 import Exchange from './exchange'
 
 import metamask from './assets/img/metamask.png'
@@ -22,7 +23,6 @@ import input from './assets/css/input'
 import alt from './assets/css/alt'
 
 import stock from './assets/css/stock'
-import page from './assets/css/page'
 import './assets/css/stock.css'
 
 const ModalBase = styled(Paper)(banner);
@@ -33,7 +33,7 @@ const ButtonPrimary = styled(Button)(primary);
 
 function Cura(){
   return(
-    <main>
+    <Grid>
       <Grid container direction="column" justify="flex-end" alignItems="baseline" style={stock}>
         <nav>
           <ul>
@@ -143,7 +143,7 @@ function Cura(){
           </Grid>
         </Grid>
       </Grid>
-      <Grid container direction="column" justify="center" alignItems="stretch" style={page} id="contact">
+      <Grid container direction="column" justify="center" alignItems="stretch" style={{ margin: "2.5em 0em"}} id="contact">
         <Grid item>
           <ModalBase>
             <div className="banner-content">
@@ -163,32 +163,33 @@ function Cura(){
           </ModalBase>
         </Grid>
       </Grid>
-      <Grid container direction="column" justify="baseline" alignItems="center" style={page}>
+      <Grid container direction="column" justify="baseline" alignItems="center" style={{ marginTop: "3.25em"}}>
         <Grid item>
           <h1 className="page-title"> Wallets </h1>
         </Grid>
         <Grid item container direction="row" justify="space-around" alignItems="space-evenly">
-        <Grid item>
-          <a className="integration-card" href="https://metamask.io" target="_blank">
-            <img className="integration-logo" src={metamask} />
-            <p> Metamask </p>
-          </a>
-        </Grid>
-        <Grid item>
-        <a className="integration-card" href="https://trustwallet.com" target="_blank">
-          <img className="integration-logo" src={trust} />
-          <p> Trust </p>
-        </a>
-        </Grid>
-        <Grid item>
-        <a className="integration-card" href="https://daostack.io" target="_blank">
-          <img className="integration-logo-alt" src={daostack} />
-          <p> DAOstack </p>
-        </a>
-        </Grid>
+          <Grid item>
+            <a className="integration-card" href="https://metamask.io" target="_blank">
+              <img className="integration-logo" src={metamask} />
+              <p> Metamask </p>
+            </a>
+          </Grid>
+          <Grid item>
+            <a className="integration-card" href="https://trustwallet.com" target="_blank">
+              <img className="integration-logo" src={trust} />
+              <p> Trust </p>
+            </a>
+          </Grid>
+          <Grid item>
+            <a className="integration-card" href="https://daostack.io" target="_blank">
+              <img className="integration-logo-alt" src={daostack} />
+              <p> DAOstack </p>
+            </a>
+          </Grid>
         </Grid>
       </Grid>
-    </main>
+      <Footer />
+    </Grid>
   )
 }
 

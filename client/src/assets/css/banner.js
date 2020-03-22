@@ -2,7 +2,7 @@ import gradient from '../img/california-inverse.jpg'
 
 const modal = ({
   background: `url("${gradient}")`,
-  width: '100vw',
+  width: '100%',
   padding: '1rem 2em',
   color: 'white',
   overflow: 'hidden',
