@@ -16,7 +16,7 @@ const ModalBase = styled(Paper)(style);
 function Modal(props){
   return (
     <ModalBase>
-      <Grid container direction='column' justify="baseline" alignItems='flex-start' spacing={4}>
+      <Grid container direction='column' justify="baseline" alignItems='flex-start' spacing={6}>
         <Grid item>
           <Wallet cura={props.cura} dai={props.dai}/>
         </Grid>

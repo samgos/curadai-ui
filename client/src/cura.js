@@ -22,6 +22,7 @@ import input from './assets/css/input'
 import alt from './assets/css/alt'
 
 import stock from './assets/css/stock'
+import page from './assets/css/page'
 import './assets/css/stock.css'
 
 const ModalBase = styled(Paper)(banner);
@@ -75,7 +76,7 @@ function Cura(){
           </div>
         </Grid>
       </Grid>
-      <Grid container direction="column" justify="flex-start" alignItems="center" style={stock} id="exchange">
+      <Grid container direction="column" justify="flex-start" alignItems="center" id="exchange" >
         <Grid item container direction="row" justify="space-evenly" alignItems="center">
           <Grid item>
             <div className="currency-card">
@@ -103,7 +104,7 @@ function Cura(){
           <Exchange />
         </Grid>
       </Grid>
-      <Grid container direction="column" justify="center" alignItems="baseline" style={stock}>
+      <Grid container direction="column" justify="center" alignItems="baseline">
         <Grid item container direction="row" justify="space-evenly" alignItems="center">
           <Grid item>
             <div className="trait-card">
@@ -142,7 +143,7 @@ function Cura(){
           </Grid>
         </Grid>
       </Grid>
-      <Grid container direction="column" justify="center" alignItems="stretch" style={{ minHeight: '75vh' }} id="contact">
+      <Grid container direction="column" justify="center" alignItems="stretch" style={page} id="contact">
         <Grid item>
           <ModalBase>
             <div className="banner-content">
@@ -162,7 +163,7 @@ function Cura(){
           </ModalBase>
         </Grid>
       </Grid>
-      <Grid container direction="column" justify="baseline" alignItems="center" style={{ minHeight: '75vh' }}>
+      <Grid container direction="column" justify="baseline" alignItems="center" style={page}>
         <Grid item>
           <h1 className="page-title"> Wallets </h1>
         </Grid>

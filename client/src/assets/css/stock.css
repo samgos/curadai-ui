@@ -62,6 +62,7 @@
 .page-title {
   font-size: 3.5em;
   margin-bottom: 1.5em;
+  margin-bottom: 1.25em;
   float: left;
 }
 
@@ -342,6 +343,22 @@ label {
 input, .MuiInputBase-root, span {
   color: white !important;
 }
+
+/* Widescreen */
+
+@media screen and (min-width: 1750px) {
+
+  .landing-content {
+    margin-bottom: 10em;
+    margin-top: .75em;
+  }
+
+  .landing-graphic {
+    bottom: 0px
+  }
+
+}
+
 
 @media screen and (max-width: 650px) and (max-height: 825px){
 
