@@ -6,7 +6,7 @@ const alt = ({
   color: 'white',
   fontSize: '.5em',
   padding: '.2em .75em',
-  marginRight: '1.75em',
+  float: 'right',
   '&:hover': {
     background: '#2de28e',
     borderColor: 'white'

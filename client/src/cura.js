@@ -137,8 +137,8 @@ function Cura(){
           <Grid item>
             <div className="benefits">
               <h3> Sit back and enjoy the island life! </h3>
-              <ButtonPrimary variant="outlined"> Learn more </ButtonPrimary>
-              <ButtonAlt variant="outlined" className="earn-button"> Earn CuraDAI </ButtonAlt>
+              <ButtonPrimary variant="outlined" href="https://docs.google.com/presentation/d/17_EwXhXKmWPC6k8fUyOfNAkO-yb2-dnK0_EwmB3uBg4/edit?usp=sharing" target="_blank" className="learn-button"> Learn more </ButtonPrimary>
+              <ButtonAlt variant="outlined" className="earn-button" href="#" target="_blank"> Earn CuraDAI </ButtonAlt>
             </div>
           </Grid>
         </Grid>

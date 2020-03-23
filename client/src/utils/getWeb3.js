@@ -1,32 +1,36 @@
-import Web3 from "web3";
+import Web3 from 'web3';
+import Web3Modal from 'web3modal';
+import WalletConnectProvider from '@walletconnect/web3-provider';
 
-const getWeb3 = () =>
-  new Promise(async (resolve, reject) => {
-      // Modern dapp browsers...
-      if (window.ethereum) {
-        const web3 = new Web3(window.ethereum);
-        try {
-          // Request account access if needed
-          await window.ethereum.enable();
-          const accounts = await web3.eth.getAccounts();
-          // Acccounts now exposed
-          resolve({
-            web3, account: accounts[0]
-          });
-        } catch (error) {
-          reject(error);
-        }
-      }
-      // Legacy dapp browsers...
-      else if (window.web3) {
-        // Use Mist/MetaMask's provider.
-        const web3 = window.web3;
-        const accounts = await web3.eth.getAccounts();
-        console.log("Injected web3 detected.");
-        resolve({
-          web3, accounts
-        });
-      }
-  });
+const providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      infuraId: 'a7056621462747928bbed1ce1fbc4ade'
+    }
+  }
+};
+
+const getWeb3 = () => (
+  new Promise(async(resolve, reject) => {
+    try {
+      const web3Modal = new Web3Modal({
+        network: 'mainnet',
+        cacheProvider: false,
+        providerOptions
+      })
+      web3Modal.clearCachedProvider()
+
+      const provider = await web3Modal.connect()
+      let web3 = new Web3(provider)
+      const accounts = await web3.eth.getAccounts()
+      const account = accounts[0]
+
+      resolve({ web3, account })
+    } catch(e){
+      resolve(e)
+    }
+  })
+);
 
 export default getWeb3;

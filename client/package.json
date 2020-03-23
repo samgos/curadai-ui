@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.8.0",
     "@material-ui/icons": "^4.5.1",
+    "@walletconnect/web3-provider": "^1.0.0-beta.47",
     "install": "^0.13.0",
     "npm": "^6.13.4",
     "react": "^16.13.0",
@@ -13,7 +14,8 @@
     "react-scripts": "3.2.0",
     "react-svg": "^11.0.14",
     "styled-components": "^5.0.1",
-    "web3": "1.2.2"
+    "web3": "1.2.2",
+    "web3modal": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 import { styled } from '@material-ui/core/styles';
 import HelpIcon from '@material-ui/icons/Help';
+import IconButton from '@material-ui/core/IconButton'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import style from '../assets/css/modal';
@@ -17,8 +18,13 @@ function Modal(props){
   return (
     <ModalBase>
       <Grid container direction='column' justify="baseline" alignItems='flex-start' spacing={6}>
-        <Grid item>
-          <Wallet cura={props.cura} dai={props.dai}/>
+        <Grid item container direction='row' justify='space-between'>
+          <Grid item>
+            <Wallet cura={props.cura} dai={props.dai}/>
+          </Grid>
+          <Grid item>
+            <IconButton href="#" target="_blank" style={{ margin: 0 }}> <HelpIcon /> </IconButton>
+          </Grid>
         </Grid>
         <Grid item container direction='row' justify='center' spacing={3}>
           <Grid item>

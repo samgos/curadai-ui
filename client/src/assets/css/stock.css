@@ -91,8 +91,11 @@ a {
   color: #faad66;
 }
 
-.footer-list li a, .footer-list-alt li a, p a {
-  color: rgba(256, 256, 256, 0.875);
+ .footer-list-alt li a,
+ .footer-list li a,
+ .mail-link {
+  font-family: "San Francisco Reg";
+  color: white;
 }
 
 a:hover {
@@ -157,6 +160,7 @@ li i {
 }
 
 
+
 .footer-list, .footer-list-alt {
   margin-block-start: 0px;
   margin-block-end: 0px;
@@ -204,9 +208,11 @@ nav ul {
 
 nav ul li {
   display: table-cell;
-  font-family: "San Francisco Reg";
   font-size: 1.25em;
+}
 
+nav ul li a {
+  font-family: "San Francisco Bold";
 }
 
 nav ul li {
@@ -220,7 +226,6 @@ nav ul li:last-of-type {
 nav li a {
   text-decoration: none !important;
 }
-
 
 .palm-vector svg {
   width: 450px !important;
@@ -376,6 +381,7 @@ nav li a {
 .balances {
   position: relative;
   padding-left: 17.5px;
+  font-family: "San Francisco Reg";
   bottom: 2.5px;
 }
 
@@ -421,8 +427,8 @@ input, .MuiInputBase-root, span {
     padding-bottom: 0px;
   }
 
-  .earn-button {
-    margin-right: 0px !important;
+  .learn-button {
+    margin-left: 0px !important;
   }
 
   nav {
@@ -464,7 +470,7 @@ input, .MuiInputBase-root, span {
   }
 
   .WithStyles\(ForwardRef\(Paper\)\)-root-104, .jss133, .jss104 {
-    width: 67.5vw !important;
+    width: 72.5vw !important;
   }
 
   .WithStyles\(ForwardRef\(TextField\)\)-root-263, .jss263, .form-input {
