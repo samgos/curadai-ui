@@ -29,7 +29,7 @@ function Footer() {
           <ul className="footer-list-alt">
             <li> <a href="https://etherscan.io/token/0x0a4b2d4b48a63088e0897a3f147ba37f81a27722" target="_blank"> CuraDAI contract </a> </li>
             <li> <a href="https://gitcoin.co/grants/229/curadai-a-defi-based-stable-coin-for-curacao" target="_blank"> Gitcoin grants </a> </li>
-            <li> <a href="https://curadao.io" target="_blank"> CuraDAO </a> </li>
+            <li> <a href="https://curadao.io" target="_blank"> Newsletter </a> </li>
           </ul>
         </Grid>
         <Grid item>

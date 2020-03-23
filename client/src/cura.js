@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { ReactSVG } from 'react-svg'
 
 import { styled } from '@material-ui/core/styles'
@@ -32,6 +32,24 @@ const ButtonAlt = styled(Button)(alt);
 const ButtonPrimary = styled(Button)(primary);
 
 function Cura(){
+  const email = useRef(null)
+
+  const contactSubmit = async() => {
+    await fetch('https://curadai.curadao.io:9000/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+         'Accept': 'application/json'
+      },
+      mode: 'cors',
+      body: JSON.stringify({
+        email: email.current.value
+      })
+    }).then(() => {
+      document.getElementsByClassName('form-input')[0].value = ""
+    })
+  }
+
   return(
     <Grid>
       <Grid container direction="column" justify="flex-end" alignItems="baseline" style={stock}>
@@ -137,8 +155,8 @@ function Cura(){
           <Grid item>
             <div className="benefits">
               <h3> Sit back and enjoy the island life! </h3>
-              <ButtonPrimary variant="outlined" href="https://docs.google.com/presentation/d/17_EwXhXKmWPC6k8fUyOfNAkO-yb2-dnK0_EwmB3uBg4/edit?usp=sharing" target="_blank" className="learn-button"> Learn more </ButtonPrimary>
-              <ButtonAlt variant="outlined" className="earn-button" href="#" target="_blank"> Earn CuraDAI </ButtonAlt>
+              <ButtonPrimary variant="outlined" href="https://drive.google.com/open?id=1fG16u3z9YGX8KiTmFrdXyyhqEh47jki_" target="_blank" className="learn-button"> Learn more </ButtonPrimary>
+              <ButtonAlt variant="outlined" className="earn-button" href="https://curadao.io/proposal/" target="_blank"> Earn CuraDAI </ButtonAlt>
             </div>
           </Grid>
         </Grid>
@@ -154,8 +172,8 @@ function Cura(){
                 </Grid>
                 <Grid item>
                   <div className="form-content">
-                    <TextInput className="form-input" variant="outlined" label="Email" />
-                    <Trigger className="form-button"> Submit </Trigger>
+                    <TextInput ref={email} className="form-input" variant="outlined" label="Email" />
+                    <Trigger className="form-button" onClick={contactSubmit}> Submit </Trigger>
                   </div>
                 </Grid>
               </Grid>
