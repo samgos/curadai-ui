@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { ReactSVG } from 'react-svg'
 
 import { styled } from '@material-ui/core/styles'
@@ -32,6 +32,8 @@ const ButtonAlt = styled(Button)(alt);
 const ButtonPrimary = styled(Button)(primary);
 
 function Cura(){
+  const [ tokenMetadata, setMetadata ] = useState({ CURA: 0, DAI: 0 })
+
   const email = useRef(null)
 
   const contactSubmit = async() => {
@@ -39,7 +41,7 @@ function Cura(){
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-         'Accept': 'application/json'
+        'Accept': 'application/json'
       },
       mode: 'cors',
       body: JSON.stringify({
@@ -49,6 +51,22 @@ function Cura(){
       document.getElementsByClassName('form-input')[0].value = ""
     })
   }
+
+  useEffect(() => {
+   const getStats = async() => {
+     const metadata = await fetch('https://curadai.curadao.io:9000/stats', {
+      method: 'GET',
+      headers: {
+       'Content-Type': 'application/json',
+       'Accept': 'application/json'
+     },
+     mode: 'cors',
+   }).then(res => res.json())
+     console.log(metadata)
+     setMetadata({ ...metadata })
+    }
+   getStats()
+  }, [])
 
   return(
     <Grid>
@@ -100,21 +118,21 @@ function Cura(){
             <div className="currency-card">
               <img className="currency-logo" src={dai} />
               <p> DAI pegged </p>
-              <p> 1,000,000 <a>DAI</a> </p>
+              <p> {tokenMetadata.DAI} <a>DAI</a> </p>
             </div>
           </Grid>
           <Grid item>
           <div className="currency-card">
             <img className="currency-logo" src={cura} />
             <p> CURA created </p>
-            <p> 1,780,000 <a>CURA</a> </p>
+            <p> {tokenMetadata.CURA} <a>CURA</a> </p>
           </div>
           </Grid>
           <Grid item>
           <div className="currency-card">
             <i className="las la-users" />
             <p> Active users </p>
-            <p> 1,000 <a>Users</a></p>
+            <p> 20 <a>Users</a></p>
           </div>
           </Grid>
         </Grid>
