@@ -17,20 +17,29 @@ const Base = styled.footer`
 function Footer() {
   return(
     <Base>
-      <Grid container direction="row" alignItems="center" justify="space-around">
+      <Grid container direction="row" alignItems="baseline" justify="space-around">
         <Grid item>
-          <ul>
-            <li> Facebook </li>
-            <li> Linkedin </li>
-            <li> Twitter </li>
+          <ul className="footer-list">
+            <li> <i class="lab la-twitter" /> <a> @Curadao </a> </li>
+            <li> <i class="lab la-facebook-f" /> <a> @Curadao </a> </li>
+            <li> <i class="lab la-linkedin-in" /> <a> @CWdao </a> </li>
           </ul>
         </Grid>
         <Grid item>
-          <h5> Got a question? </h5>
-          <p> Just email us at curadai@curadao.io </p>
+          <ul className="footer-list-alt">
+            <li> <a> CuraDAI contract </a> </li>
+            <li> <a> Gitcoin grants </a> </li>
+            <li> <a> CuraDAO </a> </li>
+          </ul>
         </Grid>
         <Grid item>
-          <h5> © Curadao 2020. All rights reserved. </h5>
+          <h3> Got a question? </h3>
+          <p> Just email us at <br /> <a> curadai@curadao.io </a> </p>
+        </Grid>
+        <Grid item>
+          <span className="rights-reserved">
+            <h4> © Curadao 2020. All rights reserved. </h4>
+          </span>
         </Grid>
       </Grid>
     </Base>

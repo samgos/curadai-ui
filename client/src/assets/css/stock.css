@@ -91,8 +91,12 @@ a {
   color: #faad66;
 }
 
+.footer-list li a, .footer-list-alt li a, p a {
+  color: rgba(256, 256, 256, 0.875);
+}
+
 a:hover {
-  color: #0099ff;
+  color: #0099ff !important;
 }
 
 .WithStyles\(ForwardRef\(Paper\)\)-root-133 {
@@ -146,6 +150,45 @@ a:hover {
   padding: 2.25em;
   width: 500px;
   font-size: 1.5em;
+}
+
+li i {
+  font-size: 1.75em;
+}
+
+
+.footer-list, .footer-list-alt {
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 0px;
+}
+
+.footer-list li {
+  margin-top: 12.5px;
+}
+
+.footer-list-alt li {
+  margin-top: 25px;
+}
+
+
+.rights-reserved {
+  font-family: "San Francisco Reg";
+}
+
+li i {
+  position: relative;
+  top: 5px;
+}
+
+p {
+   margin: 0em;
+}
+
+ul {
+  list-style-type: none;
 }
 
 nav {
@@ -268,6 +311,7 @@ nav li a {
 }
 
 .integration-card p {
+  margin-top: 1em;
   font-size: 1.75em;
   text-align: center;
 }
