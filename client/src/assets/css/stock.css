@@ -426,7 +426,7 @@ input, .MuiInputBase-root, span {
   }
 
   nav {
-    padding: 0px;
+    padding: 0px !important;
   }
 
   .root-263 {
@@ -434,11 +434,11 @@ input, .MuiInputBase-root, span {
   }
 
   nav ul li {
-    padding-right: 25px;
+    padding-right: 20px;
   }
 
   nav ul li:last-of-type {
-    padding-right: 40px;
+    padding-right: 10vw;
   }
 
   .landing-logo {
@@ -468,7 +468,8 @@ input, .MuiInputBase-root, span {
   }
 
   .WithStyles\(ForwardRef\(TextField\)\)-root-263, .jss263, .form-input {
-    width: 12.5em !important;
+    margin-top: 1em !important;
+    width: 80vw !important;
   }
 
   .form-button {
@@ -484,7 +485,7 @@ input, .MuiInputBase-root, span {
   }
 
   .banner-title {
-    font-size: 1.5em;
+    font-size: 1.45em;
   }
 
   .banner-content {
