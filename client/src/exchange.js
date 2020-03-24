@@ -55,7 +55,7 @@ function Exchange(props){
   }
 
   const swapTokens = async() => {
-    switch(exchangeMarket){
+    switch(exchangeMarket.current){
       case "CuraDAI":
         await burnCura()
       case "DAI":
@@ -86,12 +86,12 @@ function Exchange(props){
     );
   }
 
-  const burnCura = async(account, amount) => {
+  const burnCura = async() => {
     exchangePhase.current = "Pending..."
 
     await new Promise((resolve, reject) =>
       state.cura.methods.burn(exchangeAmount.current).send({
-        from: account
+        from: state.account
       }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
           exchangePhase.current = "Swap"
@@ -103,12 +103,12 @@ function Exchange(props){
     );
   }
 
-  const mintCura = async(account, amount) => {
+  const mintCura = async() => {
     exchangePhase.current = "Pending..."
 
     await new Promise((resolve, reject) =>
       state.cura.methods.mint(exchangeAmount.current).send({
-        from: account
+        from: state.account
       }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
           exchangePhase.current = "Swap"
@@ -128,18 +128,17 @@ function Exchange(props){
     const instance = exchangeMarket.current === "DAI" ? dai : cura
     const approval = await instance.methods.allowance(account, contract).call()
     const validity = parseInt(approval) >= parseInt(amount)
-
     exchangeAmount.current = amount
     return validity
   }
 
   const onChange = async(_exchange) => {
-    _exchange = await discoverRate(_exchange)
+    await discoverRate(_exchange)
     if(exchangePhase.current !== "Connect" && !isNaN(_exchange.target.value)){
       const validity = await proofAllowance(_exchange)
 
       if(validity) exchangePhase.current = "Swap"
-      else exchangePhase.current = "Approve"
+      else if(!validity) exchangePhase.current = "Approve"
     }
   }
 
@@ -151,9 +150,8 @@ function Exchange(props){
     } else if(exchangeMarket.current === "DAI"){
       var value = (parseFloat(_exchange.target.value)*parseFloat(1.75));
       value = value % 1 === 0 ? value : value.toFixed(2);
-      daiRef.current.value = _exchange.target.value
       curaRef.current.value = value
-    } return _exchange
+    }
   }
 
   const convertInput = async(_amount) => {
@@ -228,8 +226,6 @@ function Exchange(props){
   }
 
   useEffect(() => {
-    daiRef.current.value = 1
-    curaRef.current.value = 1.78
     exchangeMarket.current = "DAI"
     setStyle("DAI", true)
   }, [])
