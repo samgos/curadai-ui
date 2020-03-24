@@ -35,9 +35,13 @@ function Input(props){
     }
   }
 
+  useEffect(() => {
+    props.targetRef.current.label = props.currency
+  }, [])
 
   return (
-   <TextInput onSelect={detectMarket} ref={props.targetRef}
+   <TextInput value={props.targetRef.current.value} onChange={props.stateChange}
+       onSelect={detectMarket} inputRef={props.targetRef}
        label={props.label} variant="outlined"
        helperText={
         <span> {props.currency === "DAI" ?

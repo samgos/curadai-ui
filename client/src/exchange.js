@@ -14,15 +14,14 @@ import { store } from './state'
 function Exchange(props){
   const [ modalContent, setContent ] = useState({ title: "", body: "", button: true })
   const [ exchangeBalance, setBalances ] = useState({ cura: 0, dai: 0 })
-  const [ exchangePhase, setPhase ] = useState("Connect")
-  const [ exchangeMarket, setMarket ] = useState("DAI")
-  const [ exchangeAmount, setExchange ] = useState(0)
-  const [ exchangeRate, setRate ] = useState(1.75)
   const [ modalAlert, setAlert ] = useState(false)
+  const exchangePhase = useRef("Connect")
+  const exchangeMarket = useRef("DAI")
+  const exchangeAmount = useRef(0)
+  const curaRef = useRef(1.78)
+  const daiRef = useRef(1)
 
   let { state, dispatch } = useContext(store)
-  let curaRef = useRef(1.78)
-  let daiRef = useRef(1)
 
   const initialiseWeb3 = async() => {
     try {
@@ -37,15 +36,16 @@ function Exchange(props){
           dai, cura, account, web3, network
         }, type: 'WEB3'
       })
-      setPhase('Approve')
+      exchangePhase.current = 'Approve'
+      await getBalances(cura, dai, account)
     } catch(e) {
       alert('Web3 provider could not be found')
     }
   }
 
-  const getBalances = async() => {
-    const curaCall = await state.cura.methods.balanceOf(state.account).call()
-    const daiCall = await state.dai.methods.balanceOf(state.account).call()
+  const getBalances = async(_cura, _dai, _account) => {
+    const curaCall = await _cura.methods.balanceOf(_account).call()
+    const daiCall = await _dai.methods.balanceOf(_account).call()
     const curaBalance = await OP.parseInput(curaCall)
     const daiBalance = await OP.parseInput(daiCall)
 
@@ -61,23 +61,23 @@ function Exchange(props){
       case "DAI":
         await mintCura()
     }
-    await getBalances()
+    await getBalances(state.cura, state.dai, state.account)
   }
 
   const approveTokens = async() => {
     let { cura, dai, account, web3 } = state
     const contract = cura.options.address
 
-    const instance = exchangeMarket === "DAI" ? dai : cura
+    const instance = exchangeMarket.current === "DAI" ? dai : cura
 
-    setPhase("Pending...")
+    exchangePhase.current = "Pending..."
 
     await new Promise((resolve, reject) =>
-      instance.methods.approve(contract, exchangeAmount).send({
+      instance.methods.approve(contract, exchangeAmount.current).send({
         from: account
       }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
-          setPhase("Swap")
+          exchangePhase.current = "Swap"
           resolve(receipt)
         }
       }).on('error', (error) => {
@@ -87,14 +87,14 @@ function Exchange(props){
   }
 
   const burnCura = async(account, amount) => {
-    setPhase("Pending...")
+    exchangePhase.current = "Pending..."
 
     await new Promise((resolve, reject) =>
-      state.cura.methods.burn(amount).send({
+      state.cura.methods.burn(exchangeAmount.current).send({
         from: account
       }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
-          setPhase("Swap")
+          exchangePhase.current = "Swap"
           resolve(receipt)
         }
       }).on('error', (error) => {
@@ -104,14 +104,14 @@ function Exchange(props){
   }
 
   const mintCura = async(account, amount) => {
-    setPhase("Pending...")
+    exchangePhase.current = "Pending..."
 
     await new Promise((resolve, reject) =>
-      state.cura.methods.mint(amount).send({
+      state.cura.methods.mint(exchangeAmount.current).send({
         from: account
       }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
-          setPhase("Swap")
+          exchangePhase.current = "Swap"
           resolve(receipt)
         }
       }).on('error', (error) => {
@@ -122,37 +122,38 @@ function Exchange(props){
 
   const proofAllowance = async(_exchange) => {
     const { cura, dai, account, web3 } = state
-    const amount = await convertInput(_exchange)
+    const amount = await convertInput(_exchange.target.value)
     const contract = cura.options.address
 
-    const instance = exchangeMarket === "DAI" ? dai : cura
+    const instance = exchangeMarket.current === "DAI" ? dai : cura
     const approval = await instance.methods.allowance(account, contract).call()
     const validity = parseInt(approval) >= parseInt(amount)
 
-    setExchange(amount)
+    exchangeAmount.current = amount
     return validity
   }
 
   const onChange = async(_exchange) => {
-    await discoverRate(_exchange)
-    if(exchangePhase !== "Connect" && !isNaN(_exchange)){
-      const approvalValidity = await proofAllowance(_exchange)
+    _exchange = await discoverRate(_exchange)
+    if(exchangePhase.current !== "Connect" && !isNaN(_exchange.target.value)){
+      const validity = await proofAllowance(_exchange)
 
-      if(approvalValidity) setPhase("Swap")
-      else setPhase("Approve")
+      if(validity) exchangePhase.current = "Swap"
+      else exchangePhase.current = "Approve"
     }
   }
 
   const discoverRate = async(_exchange) => {
-    if(exchangeMarket === "CuraDAI") {
+    if(exchangeMarket.current === "CuraDAI") {
       var value = (parseFloat(_exchange.target.value)/parseFloat(1.78));
       value = value % 1 === 0 ? value : value.toFixed(2);
-      setRate(value)
-    } else if(exchangeMarket === "DAI"){
+      daiRef.current.value = value
+    } else if(exchangeMarket.current === "DAI"){
       var value = (parseFloat(_exchange.target.value)*parseFloat(1.75));
       value = value % 1 === 0 ? value : value.toFixed(2);
-      setRate(value)
-    }
+      daiRef.current.value = _exchange.target.value
+      curaRef.current.value = value
+    } return _exchange
   }
 
   const convertInput = async(_amount) => {
@@ -169,10 +170,10 @@ function Exchange(props){
   const marketChange = (_market) => {
     const reset = _market === "DAI" ? "CuraDAI" : "DAI";
 
+    exchangeMarket.current =_market;
+
     setStyle(reset, false);
     setStyle(_market, true);
-
-    setMarket(_market)
   }
 
   const setStyle = (_element, _bool) => {
@@ -199,12 +200,12 @@ function Exchange(props){
   }
 
   const buttonOperation = () => {
-    switch(exchangePhase){
+    switch(exchangePhase.current){
       case "Approve":
-        approveTokens()
+        return approveTokens()
       case "Swap":
-        swapTokens()
-      default:
+        return swapTokens()
+      case "Connect":
         return initialiseWeb3()
     }
   }
@@ -227,8 +228,12 @@ function Exchange(props){
   }
 
   useEffect(() => {
+    daiRef.current.value = 1
+    curaRef.current.value = 1.78
+    exchangeMarket.current = "DAI"
     setStyle("DAI", true)
   }, [])
+
 
   return (
      <Fragment>
@@ -238,9 +243,7 @@ function Exchange(props){
           marketChange={marketChange}
           stateChange={onChange}
           market={exchangeMarket}
-          balances={getBalances}
           phase={exchangePhase}
-          rate={exchangeRate}
           cura={exchangeBalance.cura}
           dai={exchangeBalance.dai}
           curaRef={curaRef}

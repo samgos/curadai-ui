@@ -33,10 +33,13 @@ const ButtonPrimary = styled(Button)(primary);
 
 function Cura(){
   const [ tokenMetadata, setMetadata ] = useState({ CURA: 0, DAI: 0 })
-
   const email = useRef(null)
 
   const contactSubmit = async() => {
+    const target = email.current.lastChild
+
+    target.lastChild.style["border-color"] = "white"
+
     await fetch('https://curadai.curadao.io:9000/contact', {
       method: 'POST',
       headers: {
@@ -47,8 +50,10 @@ function Cura(){
       body: JSON.stringify({
         email: email.current.value
       })
-    }).then(() => {
-      document.getElementsByClassName('form-input')[0].value = ""
+    }).catch(error => {
+      target.lastChild.style["border-color"] = "red"
+    }).then(res => {
+      target.firstChild.value = null
     })
   }
 
@@ -189,10 +194,10 @@ function Cura(){
                   <p> Leave your email to find more about accepting CuraDAI in your business</p>
                 </Grid>
                 <Grid item>
-                  <div className="form-content">
+                  <form className="form-content">
                     <TextInput ref={email} className="form-input" variant="outlined" label="Email" />
                     <Trigger className="form-button" onClick={contactSubmit}> Submit </Trigger>
-                  </div>
+                  </form>
                 </Grid>
               </Grid>
             </div>

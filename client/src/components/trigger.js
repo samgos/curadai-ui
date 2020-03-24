@@ -8,7 +8,7 @@ const CustomButton = styled(Button)(style);
 
 function Trigger(props){
   return (
-    <CustomButton onClick={props.onClick} variant="outlined">{props.label}</CustomButton>
+    <CustomButton onClick={props.onClick} variant="outlined">{props.label.current}</CustomButton>
   )
 }
 

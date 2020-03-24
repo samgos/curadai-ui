@@ -33,7 +33,7 @@ function Modal(props){
             </div>
           </Grid>
           <Grid item>
-            <Input market={props.market} rate={props.rate}
+            <Input market={props.market}
               marketChange={props.marketChange}
               stateChange={props.stateChange}
               currency='DAI' label='Amount'
