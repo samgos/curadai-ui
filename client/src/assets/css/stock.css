@@ -415,6 +415,10 @@ input, .MuiInputBase-root, span {
 
 @media screen and (max-width: 650px) and (max-height: 825px){
 
+  nav ul li {
+    padding-right: 25px;
+  }
+
   .landing-logo  {
     padding-top: 5em;
   }
@@ -436,15 +440,6 @@ input, .MuiInputBase-root, span {
   }
   .root-263 {
     margin-right: 0em;
-  }
-
-  nav {
-    padding: .5em 0em;
-  }
-
-  nav ul li {
-    padding-right: 7.75% !important;
-    padding-left: .5% !important;
   }
 
   .landing-logo {
