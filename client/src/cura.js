@@ -117,7 +117,7 @@ function Cura(){
           </div>
         </Grid>
       </Grid>
-      <Grid container direction="column" justify="flex-start" alignItems="center" id="exchange" >
+      <Grid container direction="column" justify="flex-start" alignItems="center">
         <Grid item container direction="row" justify="space-evenly" alignItems="center">
           <Grid item>
             <div className="currency-card">
@@ -141,7 +141,7 @@ function Cura(){
           </div>
           </Grid>
         </Grid>
-        <Grid item>
+        <Grid item id="exchange">
           <Exchange />
         </Grid>
       </Grid>
