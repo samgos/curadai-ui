@@ -22,9 +22,6 @@ function Modal(props){
           <Grid item>
             <Wallet cura={props.cura} dai={props.dai}/>
           </Grid>
-          <Grid item>
-            <IconButton href="#" target="_blank" style={{ margin: 0 }}> <HelpIcon /> </IconButton>
-          </Grid>
         </Grid>
         <Grid item container direction='row' justify='center' spacing={3}>
           <Grid item>

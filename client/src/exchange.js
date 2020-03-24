@@ -7,15 +7,12 @@ import OP from './utils/operations'
 
 import Grid from '@material-ui/core/Grid'
 import Modal from './components/modal'
-import Alert from './components/alert'
 
 import { store } from './state'
 
 function Exchange(props){
-  const [ modalContent, setContent ] = useState({ title: "", body: "", button: true })
   const [ exchangeBalance, setBalances ] = useState({ cura: 0, dai: 0 })
-  const [ modalAlert, setAlert ] = useState(false)
-  const exchangePhase = useRef("Connect")
+  const [ exchangePhase, setPhase ] = useState("Connect")
   const exchangeMarket = useRef("DAI")
   const exchangeAmount = useRef(0)
   const curaRef = useRef(1.78)
@@ -36,8 +33,8 @@ function Exchange(props){
           dai, cura, account, web3, network
         }, type: 'WEB3'
       })
-      exchangePhase.current = 'Approve'
       await getBalances(cura, dai, account)
+      setPhase('Approve')
     } catch(e) {
       alert('Web3 provider could not be found')
     }
@@ -70,51 +67,54 @@ function Exchange(props){
 
     const instance = exchangeMarket.current === "DAI" ? dai : cura
 
-    exchangePhase.current = "Pending..."
+    setPhase("Pending...")
 
     await new Promise((resolve, reject) =>
       instance.methods.approve(contract, exchangeAmount.current).send({
         from: account
       }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
-          exchangePhase.current = "Swap"
+          setPhase("Swap")
           resolve(receipt)
         }
       }).on('error', (error) => {
+        setPhase("Approve")
         reject(error)
       })
     );
   }
 
   const burnCura = async() => {
-    exchangePhase.current = "Pending..."
+    setPhase("Pending...")
 
     await new Promise((resolve, reject) =>
       state.cura.methods.burn(exchangeAmount.current).send({
         from: state.account
       }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
-          exchangePhase.current = "Swap"
+          setPhase("Swap")
           resolve(receipt)
         }
       }).on('error', (error) => {
+        setPhase("Approve")
         reject(error)
       })
     );
   }
 
   const mintCura = async() => {
-    exchangePhase.current = "Pending..."
+    setPhase("Pending...")
 
     await new Promise((resolve, reject) =>
       state.cura.methods.mint(exchangeAmount.current).send({
         from: state.account
       }).on('confirmation', (confirmationNumber, receipt) => {
         if(confirmationNumber === 1){
-          exchangePhase.current = "Swap"
+          setPhase("Swap")
           resolve(receipt)
         }
       }).on('error', (error) => {
+        setPhase("Approve")
         reject(error)
       })
     );
@@ -134,11 +134,11 @@ function Exchange(props){
 
   const onChange = async(_exchange) => {
     await discoverRate(_exchange)
-    if(exchangePhase.current !== "Connect" && !isNaN(_exchange.target.value)){
+    if(exchangePhase !== "Connect" && !isNaN(_exchange.target.value)){
       const validity = await proofAllowance(_exchange)
 
-      if(validity) exchangePhase.current = "Swap"
-      else if(!validity) exchangePhase.current = "Approve"
+      if(validity) setPhase("Swap")
+      else if(!validity) setPhase("Approve")
     }
   }
 
@@ -198,7 +198,7 @@ function Exchange(props){
   }
 
   const buttonOperation = () => {
-    switch(exchangePhase.current){
+    switch(exchangePhase){
       case "Approve":
         return approveTokens()
       case "Swap":
@@ -208,52 +208,23 @@ function Exchange(props){
     }
   }
 
-  const triggerInfo = async() => {
-    setContent({
-      title:  ALERT.INFO_TITLE,
-      body: ALERT.INFO_BODY,
-      button: true
-    })
-    openModal()
-  }
-
-  const openModal = () => {
-    setAlert(true)
-  }
-
-  const closeModal = () => {
-    setAlert(false)
-  }
-
   useEffect(() => {
     exchangeMarket.current = "DAI"
     setStyle("DAI", true)
   }, [])
 
-
   return (
-     <Fragment>
-        <Modal
-          infoTrigger={triggerInfo}
-          operation={buttonOperation}
-          marketChange={marketChange}
-          stateChange={onChange}
-          market={exchangeMarket}
-          phase={exchangePhase}
-          cura={exchangeBalance.cura}
-          dai={exchangeBalance.dai}
-          curaRef={curaRef}
-          daiRef={daiRef}
-        />
-        <Alert
-          trigger={modalAlert}
-          bodyTitle={modalContent.title}
-          bodyText={modalContent.body}
-          buttonState={modalContent.button}
-          openModal={openModal}
-          closeModal={closeModal}
-        />
-     </Fragment >
+      <Modal
+        operation={buttonOperation}
+        marketChange={marketChange}
+        stateChange={onChange}
+        market={exchangeMarket}
+        phase={exchangePhase}
+        cura={exchangeBalance.cura}
+        dai={exchangeBalance.dai}
+        curaRef={curaRef}
+        daiRef={daiRef}
+      />
    )
 }
 

@@ -40,21 +40,22 @@ function Cura(){
 
     target.lastChild.style["border-color"] = "white"
 
-    await fetch('https://curadai.curadao.io:9000/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      mode: 'cors',
-      body: JSON.stringify({
-        email: email.current.value
+    try {
+      await fetch('https://curadai.curadao.io:9000/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        mode: 'cors',
+        body: JSON.stringify({
+          email: email.current.value
+        })
       })
-    }).catch(error => {
-      target.lastChild.style["border-color"] = "red"
-    }).then(res => {
       target.firstChild.value = null
-    })
+    } catch(e) {
+      target.lastChild.style["border-color"] = "red"
+    }
   }
 
   useEffect(() => {
@@ -67,7 +68,6 @@ function Cura(){
      },
      mode: 'cors',
    }).then(res => res.json())
-     console.log(metadata)
      setMetadata({ ...metadata })
     }
    getStats()
@@ -165,7 +165,7 @@ function Cura(){
             <div className="trait-card">
               <i className="las la-store-alt" />
               <p>Accessible</p>
-              <p>Choose from over 50's merchants on the island alone to spend your money or take it to the world wild web</p>
+              <p>Simply create a wallet and you're ready to go, everybody deserves access to the financial system</p>
             </div>
           </Grid>
         </Grid>
