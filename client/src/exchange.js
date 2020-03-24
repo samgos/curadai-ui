@@ -145,12 +145,10 @@ function Exchange(props){
   const discoverRate = async(_exchange) => {
     if(exchangeMarket.current === "CuraDAI") {
       var value = (parseFloat(_exchange.target.value)/parseFloat(1.78));
-      value = value % 1 === 0 ? value : value.toFixed(2);
-      daiRef.current.value = value
+      daiRef.current.value = value.toFixed(2)
     } else if(exchangeMarket.current === "DAI"){
       var value = (parseFloat(_exchange.target.value)*parseFloat(1.75));
-      value = value % 1 === 0 ? value : value.toFixed(2);
-      curaRef.current.value = value
+      curaRef.current.value = value.toFixed(2)
     }
   }
 
