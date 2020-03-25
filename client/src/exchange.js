@@ -54,9 +54,9 @@ function Exchange(props){
   const swapTokens = async() => {
     switch(exchangeMarket.current){
       case "CuraDAI":
-        await burnCura()
+        return await burnCura()
       case "DAI":
-        await mintCura()
+        return await mintCura()
     }
     await getBalances(state.cura, state.dai, state.account)
   }
@@ -195,14 +195,14 @@ function Exchange(props){
     }
   }
 
-  const buttonOperation = () => {
+  const buttonOperation = async() => {
     switch(exchangePhase){
       case "Approve":
-        return approveTokens()
+        return await approveTokens()
       case "Swap":
-        return swapTokens()
+        return await swapTokens()
       case "Connect":
-        return initialiseWeb3()
+        return await initialiseWeb3()
     }
   }
 
