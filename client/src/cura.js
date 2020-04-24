@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react'
+import * as emailjs from 'emailjs-com'
 import { ReactSVG } from 'react-svg'
 
 import { styled } from '@material-ui/core/styles'
+import fetchStats from './constants/calls'
 
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -41,17 +43,16 @@ function Cura(){
     target.lastChild.style["border-color"] = "white"
 
     try {
-      await fetch('https://curadai.curadao.io:9000/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        mode: 'cors',
-        body: JSON.stringify({
-          email: email.current.value
-        })
-      })
+      var user_id = "user_0ShE06jegzIfbvuMjYZOV"
+      var service_id = "curadai_merachants"
+      var template_id = "template_Gl8skSfD"
+
+      var template_params = {
+         "contact_email": `${target.firstChild.value}`
+      }
+
+      emailjs.send(service_id, template_id, template_params, user_id);
+
       target.firstChild.value = null
     } catch(e) {
       target.lastChild.style["border-color"] = "red"
@@ -60,15 +61,8 @@ function Cura(){
 
   useEffect(() => {
    const getStats = async() => {
-     const metadata = await fetch('https://curadai.curadao.io:9000/stats', {
-      method: 'GET',
-      headers: {
-       'Content-Type': 'application/json',
-       'Accept': 'application/json'
-     },
-     mode: 'cors',
-   }).then(res => res.json())
-     setMetadata({ ...metadata })
+      const metadata = await fetchStats()
+      setMetadata({ ...metadata })
     }
    getStats()
   }, [])
