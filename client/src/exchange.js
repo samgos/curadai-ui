@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext, Fragment } from 'react'
+import React, { useRef, useEffect, useState, useContext, useCallback, Fragment } from 'react'
 import getWeb3 from './utils/getWeb3'
 
 import { CURADAI_ADDRESS, DAI_ADDRESS } from './constants/contracts'
@@ -15,8 +15,8 @@ function Exchange(props){
   const [ exchangePhase, setPhase ] = useState("Connect")
   const exchangeMarket = useRef("DAI")
   const exchangeAmount = useRef(0)
-  const curaRef = useRef(1.78)
-  const daiRef = useRef(1)
+  const [curaRef, setCura] = useState(null)
+  const [daiRef, setDai] = useState(null)
 
   let { state, dispatch } = useContext(store)
 
@@ -129,26 +129,32 @@ function Exchange(props){
     const approval = await instance.methods.allowance(account, contract).call()
     const validity = parseInt(approval) >= parseInt(amount)
     exchangeAmount.current = amount
+
     return validity
   }
 
   const onChange = async(_exchange) => {
-    await discoverRate(_exchange)
-    if(exchangePhase !== "Connect" && !isNaN(_exchange.target.value)){
-      const validity = await proofAllowance(_exchange)
+    if(!isNaN(_exchange.target.value)){
+      await discoverRate(_exchange)
 
-      if(validity) setPhase("Swap")
-      else if(!validity) setPhase("Approve")
+      if(exchangePhase !== "Connect"){
+        const validity = await proofAllowance(_exchange)
+
+        if(validity) setPhase("Swap")
+        else if(!validity) setPhase("Approve")
+      }
     }
   }
 
   const discoverRate = async(_exchange) => {
     if(exchangeMarket.current === "CuraDAI") {
-      var value = (parseFloat(_exchange.target.value)/parseFloat(1.78));
-      daiRef.current.value = value.toFixed(2)
+      var value = (parseFloat(_exchange.target.value)/parseFloat(1.78)).toFixed(2)
+      setCura(_exchange.target.value)
+      setDai(value)
     } else if(exchangeMarket.current === "DAI"){
-      var value = (parseFloat(_exchange.target.value)*parseFloat(1.75));
-      curaRef.current.value = value.toFixed(2)
+      var value = (parseFloat(_exchange.target.value)*parseFloat(1.75)).toFixed(2)
+      setDai(_exchange.target.value)
+      setCura(value)
     }
   }
 
@@ -165,8 +171,9 @@ function Exchange(props){
 
   const marketChange = (_market) => {
     const reset = _market === "DAI" ? "CuraDAI" : "DAI";
-
     exchangeMarket.current =_market;
+
+    console.log(_market);
 
     setStyle(reset, false);
     setStyle(_market, true);
@@ -210,6 +217,10 @@ function Exchange(props){
     exchangeMarket.current = "DAI"
     setStyle("DAI", true)
   }, [])
+
+  useEffect(() => {
+
+  })
 
   return (
       <Modal

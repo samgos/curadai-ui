@@ -61,6 +61,7 @@ function Modal(props){
       </Grid>
     </ModalBase>
   )
+
 }
 
 export default Modal;

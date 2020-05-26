@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
@@ -9,6 +9,7 @@ import style from '../assets/css/input';
 const TextInput = styled(TextField)(style);
 
 function Input(props){
+
   const NumberFormatCustom = (props) => {
     let { inputRef, onChange, ...other } = props;
 
@@ -37,7 +38,7 @@ function Input(props){
 
   return (
    <TextInput onChange={props.stateChange}
-       onClick={detectMarket} inputRef={props.targetRef}
+       onClick={detectMarket} value={props.targetRef}
        label={props.label} variant="outlined"
        InputLabelProps={{ shrink: true }}
        helperText={

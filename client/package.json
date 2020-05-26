@@ -15,6 +15,7 @@
     "react-scripts": "3.2.0",
     "react-svg": "^11.0.14",
     "styled-components": "^5.0.1",
+    "use-callback-ref": "^1.2.3",
     "web3": "1.2.2",
     "web3modal": "^1.1.0"
   },
