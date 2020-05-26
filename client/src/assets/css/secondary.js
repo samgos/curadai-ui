@@ -1,5 +1,5 @@
-const trigger = ({
-  background: '#0059ff',
+const trigger = _color => ({
+  background: _color,
   borderWidth: 2.5,
   color: 'white',
   fontSize: '.5em',

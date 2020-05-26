@@ -330,8 +330,21 @@ nav li a {
 }
 
 .benefits {
-  font-size: 2em;
   padding-right: 5em;
+  padding-left: 5em;
+}
+
+.benefits h3 {
+  font-size: 2.5em;
+}
+
+.benefits-selection {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.benefits .MuiButtonBase-root  {
+  font-size: 1em;
 }
 
 .currency-logo {
@@ -435,9 +448,6 @@ input, .MuiInputBase-root, span {
     padding-bottom: 0px;
   }
 
-  .learn-button {
-    margin-left: 0px !important;
-  }
   .root-263 {
     margin-right: 0em;
   }
@@ -505,7 +515,11 @@ input, .MuiInputBase-root, span {
   }
 
   .benefits {
-    padding: 0em 1em;
+    padding: 0em 2em;
+  }
+
+  .benefits .MuiButtonBase-root {
+    font-size: 1.5em;
   }
 
 }

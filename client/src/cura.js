@@ -18,6 +18,7 @@ import trust from './assets/img/trust.png'
 import cura from './assets/img/cura.png'
 import dai from './assets/img/dai.png'
 
+import secondary from './assets/css/secondary'
 import primary from './assets/css/primary'
 import trigger from './assets/css/trigger'
 import banner from './assets/css/banner'
@@ -32,6 +33,8 @@ const TextInput = styled(TextField)(input);
 const Trigger = styled(Button)(trigger);
 const ButtonAlt = styled(Button)(alt);
 const ButtonPrimary = styled(Button)(primary);
+const ButtonAccept = styled(Button)(secondary('#ffc000'));
+const ButtonEarn = styled(Button)(secondary('#0099ff'));
 
 function Cura(){
   const [ tokenMetadata, setMetadata ] = useState({ CURA: 0, DAI: 0 })
@@ -144,22 +147,22 @@ function Cura(){
           <Grid item>
             <div className="trait-card">
               <i className="las la-balance-scale" />
-              <p>Transperant</p>
-              <p>With thanks to the underlying technology, individuals can monitor the monetary supply and it's economics</p>
+              <p>Transparent</p>
+              <p>Thanks to the underlying technology, CuraDAI is completely transparent, the economy can be monitored <a>here</a></p>
             </div>
           </Grid>
           <Grid item>
             <div className="trait-card">
               <i className="las la-shipping-fast" />
-              <p>Instant</p>
-              <p>Enjoy not waiting 3-4 days for bank transfers to process, enjoy the finality of digital currencies instead</p>
+              <p>Efficient</p>
+              <p>Transactions take 10-30 seconds to complete and cost a couple of cents, even across borders</p>
             </div>
           </Grid>
           <Grid>
             <div className="trait-card">
               <i className="las la-store-alt" />
               <p>Accessible</p>
-              <p>Simply create a wallet and you're ready to go, everybody deserves access to the financial system</p>
+              <p>Simply create a wallet and you're ready to go, everybody deserves access to an efficient financial system</p>
             </div>
           </Grid>
         </Grid>
@@ -171,9 +174,21 @@ function Cura(){
           </Grid>
           <Grid item>
             <div className="benefits">
-              <h3> Sit back and enjoy the island life! </h3>
-              <ButtonPrimary variant="outlined" href="https://drive.google.com/open?id=1fG16u3z9YGX8KiTmFrdXyyhqEh47jki_" target="_blank" className="learn-button"> Learn more </ButtonPrimary>
-              <ButtonAlt variant="outlined" className="earn-button" href="https://curadao.io/proposal/" target="_blank"> Earn CuraDAI </ButtonAlt>
+              <h3> Become part of the new economy, <br></br> for a prosperous Curaçao! </h3>
+                <Grid item container direction="row" justify="space-evenly" alignItems="left">
+                  <Grid item>
+                    <ButtonPrimary variant="outlined" href="https://drive.google.com/open?id=1fG16u3z9YGX8KiTmFrdXyyhqEh47jki_" target="_blank" className="learn-button"> Learn </ButtonPrimary>
+                  </Grid>
+                  <Grid>
+                    <ButtonEarn variant="outlined" className="alt-button" href="https://curadao.io/proposal/" target="_blank"> Earn </ButtonEarn>
+                  </Grid>
+                  <Grid item>
+                    <ButtonAlt variant="outlined" className="alt-button" href="https://uniswap.exchange/swap?inputCurrency=0x0a4b2d4b48a63088e0897a3f147ba37f81a27722&outputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f" target="_blank"> Trade </ButtonAlt>
+                  </Grid>
+                  <Grid item>
+                    <ButtonAccept variant="outlined" className="alt-button" href="https://wordpress.org/plugins/mycryptocheckout/" target="_blank"> Accept </ButtonAccept>
+                  </Grid>
+                </Grid>
             </div>
           </Grid>
         </Grid>
