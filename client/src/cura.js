@@ -134,7 +134,7 @@ function Cura(){
           <div className="currency-card">
             <i className="las la-users" />
             <p> Active users </p>
-            <p> 20 <a>Users</a></p>
+            <p> {tokenMetadata.USERS} <a>Users</a></p>
           </div>
           </Grid>
         </Grid>
