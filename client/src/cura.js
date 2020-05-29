@@ -148,7 +148,7 @@ function Cura(){
             <div className="trait-card">
               <i className="las la-balance-scale" />
               <p>Transparent</p>
-              <p>Thanks to the underlying technology, CuraDAI is completely transparent, the economy can be monitored <a>here</a></p>
+              <p>Thanks to the underlying technology, CuraDAI is completely transparent, the economy can be monitored <a href="https://etherscan.io/token/0x0a4b2d4b48a63088e0897a3f147ba37f81a27722" target="_blank">here</a></p>
             </div>
           </Grid>
           <Grid item>
