@@ -5,8 +5,6 @@ export default async function fetchStats() {
   const CURA = await fetch(TOKEN_METADATA).then(res => res.json())
   const DAI = await fetch(DAI_PEGGED).then(res => res.json())
 
-  console.log(CURA)
-
   return {
     CURA: parseInt(parseFloat(CURA.totalSupply)/Math.pow(10, 18)).toLocaleString(),
     DAI: parseInt(parseFloat(DAI.result)/Math.pow(10, 18)).toLocaleString(),

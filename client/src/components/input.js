@@ -1,17 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext } from 'react'
 
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
-import { styled } from '@material-ui/core/styles';
-import NumberFormat from 'react-number-format';
-import style from '../assets/css/input';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import TextField from '@material-ui/core/TextField'
+import { styled } from '@material-ui/core/styles'
+import NumberFormat from 'react-number-format'
+import style from '../assets/css/input'
+import { store } from '../state'
 
-const TextInput = styled(TextField)(style);
+const TextInput = styled(TextField)(style)
 
 function Input(props){
+  let { state, dispatch } = useContext(state)
 
   const NumberFormatCustom = (props) => {
-    let { inputRef, onChange, ...other } = props;
+    let { inputRef, onChange, ...other } = props
 
     return (
       <NumberFormat
@@ -22,7 +24,7 @@ function Input(props){
             target: {
             value: values.value,
             },
-          });
+          })
         }}
         thousandSeparator
         isNumericString
@@ -37,10 +39,12 @@ function Input(props){
   }
 
   return (
-   <TextInput onChange={props.stateChange}
-       onClick={detectMarket} value={props.targetRef}
-       label={props.label} variant="outlined"
+   <TextInput onClick={detectMarket} value={props.dispatchValue}
+       label="Amount" variant="outlined"
        InputLabelProps={{ shrink: true }}
+       onChange={(e) => dispatch({
+          type: props.dispatchEvent, payload: e.target.value
+        })}
        helperText={
         <span> {props.currency === "DAI" ?
         "1 DAI = 1.75 CuraDAI" : "1.78 CuraDAI = 1 DAI"}
@@ -53,4 +57,4 @@ function Input(props){
   )
 }
 
-export default Input;
+export default Input

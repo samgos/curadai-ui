@@ -1,20 +1,24 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react'
 
-import { styled } from '@material-ui/core/styles';
-import HelpIcon from '@material-ui/icons/Help';
+import { styled } from '@material-ui/core/styles'
+import { store } from '../state'
+
+import HelpIcon from '@material-ui/icons/Help'
 import IconButton from '@material-ui/core/IconButton'
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import style from '../assets/css/modal';
-import curaDAI from '../assets/img/cura.png';
-import normDAI from '../assets/img/dai.png';
-import Trigger from './trigger';
-import Wallet from './wallet';
-import Input from './input';
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import curaDAI from '../assets/img/cura.png'
+import normDAI from '../assets/img/dai.png'
+import style from '../assets/css/modal'
+import Trigger from './trigger'
+import Wallet from './wallet'
+import Input from './input'
 
-const ModalBase = styled(Paper)(style);
+const ModalBase = styled(Paper)(style)
 
 function Modal(props){
+  let { state, dispatch } = useContext(state)
+
   return (
     <ModalBase>
       <Grid container direction='column' justify="baseline" alignItems='flex-start' spacing={6}>
@@ -32,10 +36,9 @@ function Modal(props){
           <Grid item>
             <Input market={props.market}
               marketChange={props.marketChange}
-              stateChange={props.stateChange}
-              currency='DAI' label='Amount'
-              targetRef={props.daiRef}
-              />
+              dispatchValue={state.dai}
+              dispatchEvent='DAI-EX'
+              currency='DAI' />
           </Grid>
         </Grid>
         <Grid item container direction='row' justify='center' spacing={3}>
@@ -45,12 +48,11 @@ function Modal(props){
             </div>
           </Grid>
           <Grid item>
-            <Input market={props.market} rate={props.rate}
-              marketChange={props.marketChange}
-              stateChange={props.stateChange}
-              currency='CuraDAI' label='Amount'
-              targetRef={props.curaRef}
-            />
+          <Input market={props.market}
+            marketChange={props.marketChange}
+            dispatchValue={state.cura}
+            dispatchEvent='CURA-EX'
+            currency='CuraDAI' />
           </Grid>
         </Grid>
         <Grid item>
@@ -64,4 +66,4 @@ function Modal(props){
 
 }
 
-export default Modal;
+export default Modal
