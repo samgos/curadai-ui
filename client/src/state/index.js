@@ -11,15 +11,15 @@ const StateProvider = ( { children } ) => {
   const [state, dispatch] = useReducer((state, action) => {
     switch(action.type) {
       case 'DAI-EX':
-        const [ dai ] = (parseFloat(action.payload) / RATE_1).toFixed(2)
-        const [ cura ] = action.payload
+        const [ curaRate ] = (parseFloat(action.payload) / RATE_1).toFixed(2)
+        const [ daiInput ] = action.payload
 
-        return { ...state, dai, cura }
+        return { ...state, dai: daiInput, cura: curaRate }
       case 'CURA-EX':
-        const [ cura ] = (parseFloat(action.payload) * RATE_2).toFixed(2)
-        const [ dai ] = action.payload
+        const [ daiRate ] = (parseFloat(action.payload) * RATE_2).toFixed(2)
+        const [ curaInput ] = action.payload
 
-        return { ...state, dai, cura }
+        return { ...state, cura: curaInput, dai: daiRate }
       case 'WEB3':
         return { ...state, ...action.payload }
       default:
