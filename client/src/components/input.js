@@ -8,7 +8,7 @@ import style from '../assets/css/input';
 
 const TextInput = styled(TextField)(style);
 
-function Input(props){
+export default function Input(props){
 
   const NumberFormatCustom = (props) => {
     let { inputRef, onChange, ...other } = props;
@@ -52,5 +52,3 @@ function Input(props){
      />
   )
 }
-
-export default Input;

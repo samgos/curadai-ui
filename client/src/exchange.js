@@ -10,7 +10,7 @@ import Modal from './components/modal'
 
 import { store } from './state'
 
-function Exchange(props){
+export default function Exchange(props){
   const [ exchangeBalance, setBalances ] = useState({ cura: 0, dai: 0 })
   const [ exchangePhase, setPhase ] = useState("Connect")
   const exchangeMarket = useRef("DAI")
@@ -236,5 +236,3 @@ function Exchange(props){
       />
    )
 }
-
-export default Exchange;

@@ -6,10 +6,8 @@ import style from '../assets/css/trigger';
 
 const CustomButton = styled(Button)(style);
 
-function Trigger(props){
+export default function Trigger(props){
   return (
     <CustomButton onClick={props.onClick} variant="outlined">{props.label}</CustomButton>
   )
 }
-
-export default Trigger;

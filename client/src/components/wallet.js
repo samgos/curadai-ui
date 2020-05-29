@@ -8,7 +8,7 @@ import style from '../assets/css/wallet';
 
 const WalletBase = styled(Paper)(style);
 
-function Wallet(props){
+export default function Wallet(props){
   return (
     <WalletBase>
       <AccountBalanceWalletIcon className="icon"/>
@@ -20,5 +20,3 @@ function Wallet(props){
     </WalletBase>
   )
 }
-
-export default Wallet;

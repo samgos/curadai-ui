@@ -14,7 +14,7 @@ import Input from './input';
 
 const ModalBase = styled(Paper)(style);
 
-function Modal(props){
+export default function Modal(props){
   return (
     <ModalBase>
       <Grid container direction='column' justify="baseline" alignItems='flex-start' spacing={6}>
@@ -63,5 +63,3 @@ function Modal(props){
   )
 
 }
-
-export default Modal;

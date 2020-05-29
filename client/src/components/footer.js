@@ -14,7 +14,7 @@ const Base = styled.footer`
   font-size: 1.25em;
 `
 
-function Footer() {
+export default function Footer() {
   return(
     <Base>
       <Grid container direction="row" alignItems="baseline" justify="space-around">
@@ -45,5 +45,3 @@ function Footer() {
     </Base>
   )
 }
-
-export default Footer;
